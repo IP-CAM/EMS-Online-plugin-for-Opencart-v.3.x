@@ -100,7 +100,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         $this->session->data['success'] = $this->language->get('text_settings_saved');
 
         $this->response->redirect(
-            $this->url->link('extension/extension', 'token='.$this->session->data['token'] . '&type=payment', true)
+            $this->url->link('extension/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment', true)
         );
     }
 
@@ -142,11 +142,11 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
             'text_yes' => $this->language->get('text_yes'),
             'text_no' => $this->language->get('text_no'),
             'action' => $this->url->link(
-                'extension/payment/'.$this->getModuleName(), 'token='.$this->session->data['token'],
+                'extension/payment/'.$this->getModuleName(), 'user_token='.$this->session->data['user_token'],
                 true
             ),
             'cancel' => $this->url->link(
-                'extension/extension', 'token='.$this->session->data['token'] . '&type=payment',
+                'extension/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment',
                 true
             )
         ];
@@ -192,16 +192,16 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         return [
             [
                 'text' => $this->language->get('text_home'),
-                'href' => $this->url->link('common/dashboard', 'token='.$this->session->data['token'], true)
+                'href' => $this->url->link('common/dashboard', 'user_token='.$this->session->data['user_token'], true)
             ],
             [
                 'text' => $this->language->get('text_extension'),
-                'href' => $this->url->link('extension/extension', 'token='.$this->session->data['token'].'&type=payment', true)
+                'href' => $this->url->link('extension/extension', 'user_token='.$this->session->data['user_token'].'&type=payment', true)
             ],
             [
                 'text' => $this->language->get('heading_title'),
                 'href' => $this->url->link('extension/payment/'.$this->getModuleName(),
-                    'token='.$this->session->data['token'], true)
+                    'user_token='.$this->session->data['user_token'], true)
             ]
         ];
     }
