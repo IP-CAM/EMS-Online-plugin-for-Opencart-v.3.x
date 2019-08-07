@@ -100,7 +100,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         $this->session->data['success'] = $this->language->get('text_settings_saved');
 
         $this->response->redirect(
-            $this->url->link('extension/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment', true)
+            $this->url->link('marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment', true)
         );
     }
 
@@ -146,7 +146,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
                 true
             ),
             'cancel' => $this->url->link(
-                'extension/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment',
+                'marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment',
                 true
             )
         ];
@@ -196,7 +196,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
             ],
             [
                 'text' => $this->language->get('text_extension'),
-                'href' => $this->url->link('extension/extension', 'user_token='.$this->session->data['user_token'].'&type=payment', true)
+                'href' => $this->url->link('marketplace/extension', 'user_token='.$this->session->data['user_token'].'&type=payment', true)
             ],
             [
                 'text' => $this->language->get('heading_title'),
@@ -225,7 +225,9 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
     {
         $postFields = [];
         foreach (static::$update_fields AS $field) {
-            $postFields[$this->getModuleFieldName($field)] = $this->request->post[$this->getPostFieldName($field)];
+	        if ( array_key_exists($this->getPostFieldName($field), $this->request->post) ) {
+		        $postFields[$this->getModuleFieldName($field)] = $this->request->post[$this->getPostFieldName($field)];
+	        }
         }
 
         return $postFields;
