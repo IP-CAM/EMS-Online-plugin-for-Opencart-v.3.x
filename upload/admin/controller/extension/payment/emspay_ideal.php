@@ -8,7 +8,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
     /**
      * Prefix for fields in admin settings page
      */
-    const POST_FIELD_PREFIX = 'ems_';
+    const POST_FIELD_PREFIX = 'payment_';
 
     /**
      * @var array
@@ -74,35 +74,36 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         $this->response->setOutput($this->load->view('extension/payment/emspay', $data));
     }
 
-    /**
-     * @return bool
-     */
-    protected function validate()
-    {
-        if (!$this->request->post[$this->getPostFieldName('api_key')]) {
-            $this->error['missing_api'] = $this->language->get('error_missing_api_key');
-        }
+	/**
+	 * @return bool
+	 */
+	protected function validate()
+	{
+		$moduleFieldName = $this->getModuleFieldName('api_key');
+		if ( ! $moduleFieldName ) {
+			$this->error['missing_api'] = $this->language->get('error_missing_api_key');
+		}
 
-        if (!$this->user->hasPermission('modify', 'extension/payment/'.$this->getModuleName())) {
-            $this->error['warning'] = $this->language->get('error_permission');
-        }
+		if (!$this->user->hasPermission('modify', 'extension/payment/'.$this->getModuleName())) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
 
-        return !$this->error;
-    }
+		return !$this->error;
+	}
 
-    /**
-     * Method updates Payment Settings and redirects back to payment plugin page
-     */
-    protected function updateSettings()
-    {
-        $this->model_setting_setting->editSetting($this->getModuleName(), $this->mapPostData());
+	/**
+	 * Method updates Payment Settings and redirects back to payment plugin page
+	 */
+	protected function updateSettings()
+	{
+		$this->model_setting_setting->editSetting(POST_FIELD_PREFIX . $this->getModuleName(), $this->mapPostData());
 
-        $this->session->data['success'] = $this->language->get('text_settings_saved');
+		$this->session->data['success'] = $this->language->get('text_settings_saved');
 
-        $this->response->redirect(
-            $this->url->link('marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment', true)
-        );
-    }
+		$this->response->redirect(
+			$this->url->link('marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment', true)
+		);
+	}
 
     /**
      * @return array
@@ -152,35 +153,36 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         ];
     }
 
-    /**
-     * Process and prepare data for configuration page
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function prepareSettingsData(array $data)
-    {
-        foreach (static::$update_fields AS $fieldToUpdate) {
-            $formPostFiled = $this->getPostFieldName($fieldToUpdate);
-            if (isset($this->request->post[$formPostFiled])) {
-                $data[$formPostFiled] = $this->request->post[$formPostFiled];
-            } else {
-                $data[$formPostFiled] = $this->config->get($this->getModuleFieldName($fieldToUpdate));
-            }
-        }
+	/**
+	 * Process and prepare data for configuration page
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	protected function prepareSettingsData(array $data)
+	{
+		foreach (static::$update_fields AS $fieldToUpdate) {
+			$moduleFieldName = $this->getModuleFieldName($fieldToUpdate);
 
-        if (empty($this->config->get($this->getModuleFieldName('api_key')))) {
-            $data['info_message'] = $this->language->get('info_plugin_not_configured');
-        }
+			if (isset($this->request->post[$moduleFieldName])) {
+				$data[$moduleFieldName] = $this->request->post[$moduleFieldName];
+			} else {
+				$data[$moduleFieldName] = $this->config->get($moduleFieldName);
+			}
+		}
 
-        if (isset($this->error['missing_api'])) {
-            $data['error_missing_api_key'] = $this->error['missing_api'];
-        } else {
-            $data['error_missing_api_key'] = '';
-        }
+		if (empty($this->config->get($this->getModuleFieldName('api_key')))) {
+			$data['info_message'] = $this->language->get('info_plugin_not_configured');
+		}
 
-        return $data;
-    }
+		if (isset($this->error['missing_api'])) {
+			$data['error_missing_api_key'] = $this->error['missing_api'];
+		} else {
+			$data['error_missing_api_key'] = '';
+		}
+
+		return $data;
+	}
 
     /**
      * Generate configuration page breadcrumbs
@@ -206,33 +208,21 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getUpdateFields()
-    {
-        $fields = [];
-        foreach (static::$update_fields AS $field) {
-            $fields[] = $this->getModuleName().'_'.$field;
-        }
-        return $fields;
-    }
+	/**
+	 * @return array
+	 */
+	protected function mapPostData()
+	{
+		$postFields = [];
+		foreach (static::$update_fields AS $field) {
+			$moduleFieldName = $this->getModuleFieldName($field);
+			if ( array_key_exists($moduleFieldName, $this->request->post) ) {
+				$postFields[$moduleFieldName] = $this->request->post[$moduleFieldName];
+			}
+		}
 
-    /**
-     * @return array
-     */
-    protected function mapPostData()
-    {
-        $postFields = [];
-        foreach (static::$update_fields AS $field) {
-	        if ( array_key_exists($this->getPostFieldName($field), $this->request->post) ) {
-		        $postFields[$this->getModuleFieldName($field)] = $this->request->post[$this->getPostFieldName($field)];
-	        }
-        }
-
-        return $postFields;
-    }
-
+		return $postFields;
+	}
 
     /**
      * @param string $emsModuleName
@@ -250,21 +240,12 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         return $this->emsModuleName;
     }
 
-    /**
-     * @param  string $fieldName
-     * @return string
-     */
-    protected function getModuleFieldName($fieldName)
-    {
-        return $this->getModuleName().'_'.$fieldName;
-    }
-
-    /**
-     * @param $postFieldName
-     * @return string
-     */
-    protected function getPostFieldName($postFieldName)
-    {
-        return static::POST_FIELD_PREFIX.$postFieldName;
-    }
+	/**
+	 * @param  string $fieldName
+	 * @return string
+	 */
+	protected function getModuleFieldName($fieldName)
+	{
+		return POST_FIELD_PREFIX . $this->getModuleName().'_'.$fieldName;
+	}
 }

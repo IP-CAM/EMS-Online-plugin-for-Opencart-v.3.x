@@ -228,7 +228,7 @@ class EmsHelper
      */
     public function getPaymentSettingsFieldName($fieldName)
     {
-        return $this->paymentMethod.'_'.$fieldName;
+        return 'payment_' . $this->paymentMethod.'_'.$fieldName;
     }
 
     /**
