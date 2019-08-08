@@ -16,15 +16,15 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
 
     public function install()
     {
-        $this->load->model('extension/event');
+        $this->load->model('setting/event');
 
-        $this->model_extension_event->addEvent(
+        $this->model_setting_event->addEvent(
             'emspay_klarna_edit_order',
             'catalog/controller/api/order/edit/after',
             'extension/payment/emspay_klarna/capture'
         );
 
-        $this->model_extension_event->addEvent(
+        $this->model_setting_event->addEvent(
             'emspay_klarna_add_history',
             'catalog/controller/api/order/history/after',
             'extension/payment/emspay_klarna/capture'
@@ -33,8 +33,8 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
 
     public function uninstall()
     {
-        $this->load->model('extension/event');
-        $this->model_extension_event->deleteEvent('emspay_klarna_edit_order');
-        $this->model_extension_event->deleteEvent('emspay_klarna_add_history');
+        $this->load->model('setting/event');
+        $this->model_setting_event->deleteEvent('emspay_klarna_edit_order');
+        $this->model_setting_event->deleteEvent('emspay_klarna_add_history');
     }
 }
