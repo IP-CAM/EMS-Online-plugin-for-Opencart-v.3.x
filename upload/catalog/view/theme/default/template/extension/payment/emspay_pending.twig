@@ -18,21 +18,21 @@
         <div id="content" class="{{ class }}">
             {{ content_top }}
             <h1>{{ order_description_text }}</h1>
-            <h3>{{ text_processing }}</h3>
+            
+            <h3>{{ pending_text }}</h3>
+
             <p>
-                {{ processing_message }}
+                <b>{{ pending_message }}</b>
             </p>
-            <img src="catalog/view/theme/default/image/emspay_ajax-loader.gif" />
+            <p>
+                {{ pending_message_sub }}
+            </p>
+            <div class="buttons">
+                <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+            </div>
         </div>
         {{ column_right }}
     </div>
 </div>
-
-<script language="JavaScript">
-    var fallback_url = "{{ fallback_url }}"
-    var callback_url = "{{ callback_url }}"
-</script>
-
-<script language="JavaScript" src="catalog/view/javascript/emspay.js" ></script>
 
 {{ footer }}
