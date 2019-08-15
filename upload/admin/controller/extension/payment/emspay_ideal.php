@@ -96,7 +96,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
 	 */
 	protected function updateSettings()
 	{
-		$this->model_setting_setting->editSetting(POST_FIELD_PREFIX . $this->getModuleName(), $this->mapPostData());
+		$this->model_setting_setting->editSetting(static::POST_FIELD_PREFIX . $this->getModuleName(), $this->mapPostData());
 
 		$this->session->data['success'] = $this->language->get('text_settings_saved');
 
@@ -246,6 +246,6 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
 	 */
 	protected function getModuleFieldName($fieldName)
 	{
-		return POST_FIELD_PREFIX . $this->getModuleName().'_'.$fieldName;
+		return static::POST_FIELD_PREFIX . $this->getModuleName().'_'.$fieldName;
 	}
 }
