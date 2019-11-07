@@ -288,16 +288,15 @@ final class Client
      * @return Order
      */
     public function createApplePayOrder(
-        $amount,
-        $currency,
-        array $paymentMethodDetails = [],
-        $description = null,
-        $merchantOrderId = null,
-        $returnUrl = null,
-        $expirationPeriod = null,
-        $customer = null,
-        $extra = null,
-        $webhookUrl = null
+            $amount,
+            $currency,
+            $description = null,
+            $merchantOrderId = null,
+            $returnUrl = null,
+            $expirationPeriod = null,
+            $customer = null,
+            $extra = null,
+            $webhookUrl = null
     ) {
         return $this->postOrder(
             Order::createWithApplePay(

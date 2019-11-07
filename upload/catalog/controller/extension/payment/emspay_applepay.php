@@ -118,8 +118,7 @@ class ControllerExtensionPaymentEmspayApplePay extends Controller
     {
         return $this->ems->createApplePayOrder(
             $orderData['amount'],            // Amount in cents
-            $orderData['currency'],      // Currency
-            [],                 //Pzyment method details
+            $orderData['currency'],          // Currensi
             $orderData['description'],       // Description
             $orderData['merchant_order_id'], // Merchant Order Id
             $orderData['return_url'],        // Return URL

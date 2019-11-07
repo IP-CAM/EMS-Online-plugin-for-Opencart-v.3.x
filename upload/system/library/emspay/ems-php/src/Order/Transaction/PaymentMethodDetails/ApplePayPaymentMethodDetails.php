@@ -4,7 +4,8 @@ namespace GingerPayments\Payment\Order\Transaction\PaymentMethodDetails;
 
 use GingerPayments\Payment\Order\Transaction\PaymentMethodDetails;
 
-final class ApplePayPaymentMethodDetails implements PaymentMethodDetails{
+final class ApplePayPaymentMethodDetails implements PaymentMethodDetails
+{
 
     /**
      * @param array $details
@@ -22,4 +23,9 @@ final class ApplePayPaymentMethodDetails implements PaymentMethodDetails{
     {
         return [];
     }
+
+    /**
+     * ApplePayPaymentMethodDetails constructor.
+     */
+    private function __construct() {}
 }
