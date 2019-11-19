@@ -20,6 +20,7 @@ final class PaymentMethod
     const PAYPAL = 'paypal';
     const PAYCONIQ = 'payconiq';
     const AFTERPAY = 'afterpay';
+    const APPLE_PAY = 'apple-pay';
 
     /**
      * @return array
@@ -35,7 +36,8 @@ final class PaymentMethod
             self::KLARNA,
             self::PAYPAL,
             self::PAYCONIQ,
-            self::AFTERPAY
+            self::AFTERPAY,
+            self::APPLE_PAY,
         ];
     }
 
@@ -109,5 +111,13 @@ final class PaymentMethod
     public function isAfterPay()
     {
         return $this->value === self::AFTERPAY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApplePay()
+    {
+        return $this->value === self::APPLE_PAY;
     }
 }
