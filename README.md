@@ -41,4 +41,4 @@ The plugin can automatically generate a webhook URL when a message is sent to th
 - After configuring the selected payment method in your OpenCart admin environment click ´Save´.
 
 6. Perform step 5 and 6 for every payment method you want to add to your paypage.
-7. Compatibility: OpenCart 2.3.0.2
+7. Compatibility: OpenCart 3.0.3.2
