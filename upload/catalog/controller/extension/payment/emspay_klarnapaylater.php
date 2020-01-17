@@ -1,6 +1,6 @@
 <?php
 
-class ControllerExtensionPaymentEmspayKlarna extends Controller
+class ControllerExtensionPaymentEmspayKlarnaPayLater extends Controller
 {
     /**
      * Default currency for Order
@@ -10,10 +10,10 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
     /**
      * Payments module name
      */
-    const MODULE_NAME = 'emspay_klarna';
+    const MODULE_NAME = 'emspay_klarnapaylater';
 
     /**
-     * @var \GingerPayments\Payment\Client
+     * @var \Ginger\ApiClient
      */
     public $ems;
 
@@ -30,11 +30,11 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
         parent::__construct($registry);
 
         $this->emsHelper = new EmsHelper(static::MODULE_NAME);
-        $this->ems = $this->emsHelper->getClientForKlarna($this->config);
+        $this->ems = $this->emsHelper->getClientForKlarnaPayLater($this->config);
     }
     
     /**
-     * Method is an event trigger for capturing Klarna shipped status.
+     * Method is an event trigger for capturing Klarna Pay Later shipped status.
      *
      * @param $route
      * @param $data
@@ -106,19 +106,19 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
                 $emsOrderData = $this->emsHelper->getOrderData($orderInfo, $this);
                 $emsOrder = $this->createOrder($emsOrderData);
 
-                if ($emsOrder->status()->isError()) {
+                if ($emsOrder['status'] == 'error') {
                     $this->language->load('extension/payment/'.static::MODULE_NAME);
-                    $this->session->data['error'] = $emsOrder->transactions()->current()->reason()->toString();
+                    $this->session->data['error'] = $emsOrder['transactions'][0]['reason'];
                     $this->session->data['error'] .= $this->language->get('error_another_payment_method');
                     $this->response->redirect($this->url->link('checkout/checkout'));
-                } elseif ($emsOrder->status()->isCancelled()) {
+                } elseif ($emsOrder['status'] == 'cancelled') {
                     $this->response->redirect($this->emsHelper->getFailureUrl($this, $this->session->data['order_id']));
                 }
 
                 $this->model_checkout_order->addOrderHistory(
-                    $emsOrder->getMerchantOrderId(),
-                    $this->emsHelper->getOrderStatus($emsOrder->getStatus(), $this->config),
-                    'EMS Online Klarna order: '.$emsOrder->id()->toString(),
+                    $emsOrder['merchant_order_id'],
+                    $this->emsHelper->getOrderStatus($emsOrder['status'], $this->config),
+                    'EMS Online Klarna Pay Later order: '.$emsOrder['id'],
                     true
                 );
                 $this->response->redirect($this->emsHelper->getSucceedUrl($this, $this->session->data['order_id']));
@@ -175,21 +175,24 @@ class ControllerExtensionPaymentEmspayKlarna extends Controller
      * Generate EMS Online iDEAL order.
      *
      * @param array
-     * @return \GingerPayments\Payment\Order
+     * @return array
      */
     protected function createOrder(array $orderData)
     {
-        return $this->ems->createKlarnaOrder(
-            $orderData['amount'],            // Amount in cents
-            $orderData['currency'],          // Currency
-            $orderData['description'],       // Description
-            $orderData['merchant_order_id'], // Merchant Order Id
-            null,                            // Return URL
-            null,                            // Expiration Period
-            $orderData['customer'],          // Customer information
-            $orderData['plugin_version'],    // Extra information
-            $orderData['webhook_url'],       // Webhook URL
-            $orderData['order_lines']        // Order lines
-        );
+        return $this->ems->createOrder([
+            'amount' => $orderData['amount'],                                // Amount in cents
+            'currency' => $orderData['currency'],                            // Currency
+            'description' => $orderData['description'],                      // Description
+            'merchant_order_id' => (string) $orderData['merchant_order_id'], // Merchant Order Id
+            'return_url' => $orderData['return_url'],                        // Return URL
+            'customer' => $orderData['customer'],                            // Customer information
+            'extra' => $orderData['plugin_version'],                         // Extra information
+            'webhook_url' => $orderData['webhook_url'],                      // Webhook URL
+            'transactions' => [
+                [
+                    'payment_method' => "klarna-pay-later",
+                ]
+            ]
+        ]);
     }
 }
