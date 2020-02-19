@@ -1,19 +1,16 @@
 <?php
 
-/**
- * Class ControllerPaymentEmspayBancontact
- */
-class ControllerExtensionPaymentEmspayBancontact extends Controller
+class ControllerExtensionPaymentEmspayKlarnaPayLater extends Controller
 {
     /**
-     * Default currency for EMS Online Order
+     * Default currency for Order
      */
     const DEFAULT_CURRENCY = 'EUR';
 
     /**
      * Payments module name
      */
-    const MODULE_NAME = 'emspay_bancontact';
+    const MODULE_NAME = 'emspay_klarnapaylater';
 
     /**
      * @var \Ginger\ApiClient
@@ -33,7 +30,47 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
         parent::__construct($registry);
 
         $this->emsHelper = new EmsHelper(static::MODULE_NAME);
-        $this->ems = $this->emsHelper->getClient($this->config);
+        $this->ems = $this->emsHelper->getClientForKlarnaPayLater($this->config);
+    }
+    
+    /**
+     * Method is an event trigger for capturing Klarna Pay Later shipped status.
+     *
+     * @param $route
+     * @param $data
+     */
+    public function capture($route, $data)
+    {
+        $this->load->model('account/order');
+        $this->load->model('checkout/order');
+
+        try {
+            $emsOrderId = EmsHelper::searchHistoryForOrderKey(
+                $this->model_account_order->getOrderHistories(
+                    $this->request->get['order_id']
+                )
+            );
+
+            if ($emsOrderId) {
+
+                $order = $this->model_checkout_order->getOrder(
+                    $this->request->get['order_id']
+                );
+
+                $capturedStatus = $this->emsHelper->getOrderStatus(
+                    EmsHelper::EMS_STATUS_CAPTURED,
+                    $this->config
+                );
+
+                if ($order['order_status_id'] == $capturedStatus) {
+                    $this->ems->setOrderCapturedStatus(
+                        $this->ems->getOrder($emsOrderId)
+                    );
+                };
+            }
+        } catch (\Exception $e) {
+            $this->session->data['error'] = $e->getMessage();
+        }
     }
 
     /**
@@ -45,6 +82,12 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
         $this->language->load('extension/payment/'.static::MODULE_NAME);
 
         $data['button_confirm'] = $this->language->get('button_confirm');
+        $data['text_select_bank'] = $this->language->get('text_select_bank');
+        $data['text_error_invalid_dob'] = $this->language->get('error_invalid_dob');
+        $data['text_please_enter_dob'] = $this->language->get('text_please_enter_dob');
+        $data['text_please_select_gender'] = $this->language->get('text_please_select_gender');
+        $data['text_please_select_gender_male'] = $this->language->get('text_please_select_gender_male');
+        $data['text_please_select_gender_female'] = $this->language->get('text_please_select_gender_female');
         $data['action'] = $this->url->link('extension/payment/'.static::MODULE_NAME.'/confirm');
 
         return $this->load->view('extension/payment/'.static::MODULE_NAME, $data);
@@ -68,9 +111,17 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
                     $this->session->data['error'] = $emsOrder['transactions'][0]['reason'];
                     $this->session->data['error'] .= $this->language->get('error_another_payment_method');
                     $this->response->redirect($this->url->link('checkout/checkout'));
+                } elseif ($emsOrder['status'] == 'cancelled') {
+                    $this->response->redirect($this->emsHelper->getFailureUrl($this, $this->session->data['order_id']));
                 }
 
-                $this->response->redirect($emsOrder['transactions'][0]['payment_url']);
+                $this->model_checkout_order->addOrderHistory(
+                    $emsOrder['merchant_order_id'],
+                    $this->emsHelper->getOrderStatus($emsOrder['status'], $this->config),
+                    'EMS Online Klarna Pay Later order: '.$emsOrder['id'],
+                    true
+                );
+                $this->response->redirect($this->emsHelper->getSucceedUrl($this, $this->session->data['order_id']));
             }
         } catch (\Exception $e) {
             $this->session->data['error'] = $e->getMessage();
@@ -109,7 +160,19 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
     }
 
     /**
-     * Generate order.
+     * Webhook action is called by API when transaction status is updated
+     *
+     * @return void
+     */
+    public function webhook()
+    {
+        $this->load->model('checkout/order');
+        $webhookData = json_decode(file_get_contents('php://input'), true);
+        $this->emsHelper->processWebhook($this, $webhookData);
+    }
+
+    /**
+     * Generate EMS Online iDEAL order.
      *
      * @param array
      * @return array
@@ -127,21 +190,9 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
             'webhook_url' => $orderData['webhook_url'],                      // Webhook URL
             'transactions' => [
                 [
-                    'payment_method' => "bancontact",
+                    'payment_method' => "klarna-pay-later",
                 ]
             ]
         ]);
-    }
-
-    /**
-     * Webhook action is called by API when transaction status is updated
-     *
-     * @return void
-     */
-    public function webhook()
-    {
-        $this->load->model('checkout/order');
-        $webhookData = json_decode(file_get_contents('php://input'), true);
-        $this->emsHelper->processWebhook($this, $webhookData);
     }
 }

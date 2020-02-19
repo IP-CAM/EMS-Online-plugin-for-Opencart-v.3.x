@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class ControllerPaymentEmspayBancontact
+ * Class ControllerPaymentEmspayWeChat
  */
-class ControllerExtensionPaymentEmspayBancontact extends Controller
+class ControllerExtensionPaymentEmspayWeChat extends Controller
 {
     /**
      * Default currency for EMS Online Order
@@ -13,7 +13,7 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
     /**
      * Payments module name
      */
-    const MODULE_NAME = 'emspay_bancontact';
+    const MODULE_NAME = 'emspay_wechat';
 
     /**
      * @var \Ginger\ApiClient
@@ -127,7 +127,7 @@ class ControllerExtensionPaymentEmspayBancontact extends Controller
             'webhook_url' => $orderData['webhook_url'],                      // Webhook URL
             'transactions' => [
                 [
-                    'payment_method' => "bancontact",
+                    'payment_method' => "wechat",
                 ]
             ]
         ]);
