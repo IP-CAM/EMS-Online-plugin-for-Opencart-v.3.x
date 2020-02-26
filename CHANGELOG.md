@@ -16,3 +16,7 @@
 * Renamed Sofort to Klarna Pay Now
 * Renamed Klarna to Klarna Pay Later
 * Add American Express, Tikkie Payment Request, WeChat 
+
+** 1.0.3 **
+
+*Fix Captured and shipped functionality
