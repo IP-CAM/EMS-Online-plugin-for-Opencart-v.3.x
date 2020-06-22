@@ -20,6 +20,7 @@ $_['entry_order_error'] = 'Order Error:';
 $_['entry_sort_order'] = 'Sort Order:';
 $_['entry_ems_api_key'] = 'EMS Online API Key:';
 $_['entry_ems_total'] = 'Minimum order amount:';
+$_['entry_country_access'] = 'Countries available for AfterPay';
 $_['entry_cacert'] = 'Bundle cURL ca.cert:';
 $_['entry_send_webhook'] = 'Generate webhook URL:';
 $_['entry_order_captured'] = 'Order Captured:';
@@ -53,3 +54,5 @@ $_['info_help_afterpay_ip_filter'] = 'If entered, only for those IPs payment met
 $_['entry_afterpay_ip_filter'] = 'IP Filtering:';
 $_['entry_afterpay_test_api_key'] = 'Test API Key:';
 $_['info_help_afterpay_test_api_key'] = 'If entered this API key will be used for testing purposes.';
+$_['info_help_country_access'] = 'List the country codes (in ISO 2 standard) following by comma, that you would like to have AfterPay available for payment. Example: BE, NL';
+

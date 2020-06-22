@@ -30,7 +30,8 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         'klarna_ip_filter',
         'klarna_test_api_key',
         'afterpay_ip_filter',
-        'afterpay_test_api_key'
+        'afterpay_test_api_key',
+        'country_access'
     ];
 
     /**
