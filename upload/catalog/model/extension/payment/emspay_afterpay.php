@@ -30,6 +30,12 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
 
                 $status = false;
             }
+        } else {
+            if (!EmsHelper::CountryValidator('NL, BE',
+                $this->session->data['payment_address']['iso_code_2'])){
+
+                $status = false;
+            }
         }
 
         if (!EmsHelper::ipIsEnabled($this->config->get('emspay_afterpay_afterpay_ip_filter'))) {
