@@ -121,7 +121,7 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
             'info_help_afterpay_test_api_key' => $this->language->get('info_help_afterpay_test_api_key'),
             'info_help_afterpay_country_access' => $this->language->get('info_help_afterpay_country_access'),
             'info_help_total' => $this->language->get('info_help_total'),
-            'info_default_country_access' => $this->language->get('info_default_country_access'),
+            'info_example_country_access' => $this->language->get('info_example_country_access'),
             'entry_ems_api_key' => $this->language->get('entry_ems_api_key'),
             'entry_order_completed' => $this->language->get('entry_order_completed'),
             'entry_order_new' => $this->language->get('entry_order_new'),
