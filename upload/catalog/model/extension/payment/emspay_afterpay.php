@@ -2,6 +2,8 @@
 
 class ModelExtensionPaymentEmspayAfterpay extends Model
 {
+    protected static $defaultCountries = ['NL', 'BE'];
+
     public function getMethod($address, $total)
     {
         $this->load->language('extension/payment/emspay_afterpay');
@@ -26,12 +28,6 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
 
         if ($this->config->get('payment_emspay_afterpay_country_access')) {
             if (!EmsHelper::CountryValidator($this->config->get('payment_emspay_afterpay_country_access'),
-                $this->session->data['payment_address']['iso_code_2'])){
-
-                $status = false;
-            }
-        } else {
-            if (!EmsHelper::CountryValidator('NL, BE',
                 $this->session->data['payment_address']['iso_code_2'])){
 
                 $status = false;
