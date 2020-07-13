@@ -9,10 +9,10 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
         $this->load->language('extension/payment/emspay_afterpay');
 
         $query = $this->db->query("SELECT * 
-            FROM ".DB_PREFIX."zone_to_geo_zone 
-            WHERE geo_zone_id = '".(int) $this->config->get('emspay_afterpay_geo_zone_id')."' 
-            AND country_id = '".(int) $address['country_id']."' 
-            AND (zone_id = '".(int) $address['zone_id']."' 
+            FROM " . DB_PREFIX . "zone_to_geo_zone 
+            WHERE geo_zone_id = '" . (int)$this->config->get('emspay_afterpay_geo_zone_id') . "' 
+            AND country_id = '" . (int)$address['country_id'] . "' 
+            AND (zone_id = '" . (int)$address['zone_id'] . "' 
             OR zone_id = '0');"
         );
 
@@ -26,12 +26,10 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
             $status = false;
         }
 
-        if ($this->config->get('payment_emspay_afterpay_country_access')) {
-            if (!EmsHelper::CountryValidator($this->config->get('payment_emspay_afterpay_country_access'),
-                $this->session->data['payment_address']['iso_code_2'])){
+        if (!EmsHelper::CountryValidator($this->config->get('payment_emspay_afterpay_country_access'),
+            $this->session->data['payment_address']['iso_code_2'])) {
 
-                $status = false;
-            }
+            $status = false;
         }
 
         if (!EmsHelper::ipIsEnabled($this->config->get('emspay_afterpay_afterpay_ip_filter'))) {
@@ -47,7 +45,7 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
                 'terms' => $this->language->get('text_payment_terms'),
                 'sort_order' => $this->config->get('emspay_afterpay_sort_order')
             ];
-        } 
+        }
 
         return $method_data;
     }
