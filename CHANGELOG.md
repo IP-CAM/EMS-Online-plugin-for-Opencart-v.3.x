@@ -28,3 +28,6 @@
 ** 1.5.1 ** 
 
 * Klarna-Pay-Later: Remove fields gender and birthday from checkout form and customer object
+* Added the ability for AfterPay to be available in the selected countries.
+* Added the AfterPay localization for Netherlands, German and French language.
+

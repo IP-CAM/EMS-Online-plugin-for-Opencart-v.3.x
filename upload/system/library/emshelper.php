@@ -8,7 +8,7 @@ class EmsHelper
     /**
      * EMS Online OpenCart plugin version
      */
-    const PLUGIN_VERSION = '1.5.0';
+    const PLUGIN_VERSION = '1.5.1';
 
     /**
      * Default currency for Order
@@ -656,6 +656,20 @@ class EmsHelper
         }
 
         return true;
+    }
+
+    /**
+     * @param $countryList
+     * @return bool
+     */
+    public static function countryValidator($countryList, $billingAddress)
+    {
+        if (empty($countryList)) {
+            return true;
+        } else {
+            $arrayCountryList = array_map('trim', explode(',', $countryList));
+            return in_array($billingAddress, $arrayCountryList);
+        }
     }
 
     /**
