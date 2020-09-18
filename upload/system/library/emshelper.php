@@ -8,12 +8,17 @@ class EmsHelper
     /**
      * EMS Online OpenCart plugin version
      */
-    const PLUGIN_VERSION = '1.5.0';
+    const PLUGIN_VERSION = '1.5.1';
 
     /**
      * Default currency for Order
      */
     const DEFAULT_CURRENCY = 'EUR';
+
+    /**
+     * @var int
+     */
+    protected $total_amount;
 
     /**
      * @var string
@@ -268,10 +273,7 @@ class EmsHelper
         $issuerId = array_key_exists('issuer_id', $paymentMethod->request->post)
             ? $paymentMethod->request->post['issuer_id'] : null;
 
-        $total_amount_in_cents = $this->getAmountInCents($orderInfo, $paymentMethod->currency);
-
         return [
-            'amount' => $total_amount_in_cents,
             'currency' => $this->getCurrency(),
             'merchant_order_id' => $orderInfo['order_id'],
             'return_url' => $paymentMethod->url->link('extension/payment/'.$this->paymentMethod.'/callback'),
@@ -280,7 +282,8 @@ class EmsHelper
             'issuer_id' => $issuerId,
             'webhook_url' => $webhookUrl,
             'payment_info' => [],
-            'order_lines' => $this->getOrderLines($orderInfo, $paymentMethod, $total_amount_in_cents),
+            'order_lines' => $this->getOrderLines($orderInfo, $paymentMethod),
+            'amount' => $this->total_amount,
             'plugin_version' => ['plugin' => static::getPluginVersion()]
         ];
     }
@@ -534,14 +537,16 @@ class EmsHelper
      * @param $totalAmountInCents
      * @return array
      */
-    public function getOrderLines($orderInfo, $paymentMethod, $totalAmountInCents)
+    public function getOrderLines($orderInfo, $paymentMethod)
     {
-        $total_amount = 0;
+        $this->total_amount = 0;
         $paymentMethod->load->model('tool/image');
         $orderLines = [];
 
         foreach ($paymentMethod->cart->getProducts() as $item) {
-            $amount = $this->getAmountInCents($orderInfo, $paymentMethod->currency,
+            $amount = $this->getAmountInCents(
+                $orderInfo,
+                $paymentMethod->currency,
                     $paymentMethod->tax->calculate(
                         $item['price'],
                         $item['tax_class_id'],
@@ -556,13 +561,17 @@ class EmsHelper
 		        'currency' => 'EUR',
 		        'quantity' => (int) $item['quantity'],
 		        'image_url' => $paymentMethod->model_tool_image->resize($item['image'], 100, 100),
-		        'vat_percentage' => $this->getOrderLineTaxRate($paymentMethod, $item['price'], $item['tax_class_id']),
+		        'vat_percentage' => $this->getOrderLineTaxRate(
+		            $paymentMethod,
+                    $item['price'],
+                    $item['tax_class_id'])
+                ,
 		        'merchant_order_line_id' => (string) $item['product_id']
 	        ],
 	        function($value) {
 		        return !is_null($value);
 	        });
-            $total_amount += $amount * $item['quantity'];
+            $this->total_amount += $amount * $item['quantity'];
         }
 
         if (array_key_exists('shipping_method', $paymentMethod->session->data)
@@ -570,20 +579,9 @@ class EmsHelper
         ) {
             $shipping_costs = $this->getShippingOrderLine($orderInfo, $paymentMethod);
             $orderLines[] = $shipping_costs;
-            $total_amount += $shipping_costs['amount'];
+            $this->total_amount += $shipping_costs['amount'];
         }
 
-        if (($totalAmountInCents - $total_amount) != 0) {
-            $orderLines[] = [
-                'name' => 'Overig',
-                'type' => 'physical',
-                'amount' => $totalAmountInCents - $total_amount,
-                'currency' => 'EUR',
-                'quantity' => 1,
-                'vat_percentage' => 2100,
-                'merchant_order_line_id' => 'miscellaneous',
-            ];
-        }
         return $orderLines;
     }
 
@@ -599,7 +597,9 @@ class EmsHelper
         return [
             'name' => $shippingMethod['title'],
             'type' => 'shipping_fee',
-            'amount' => $this->getAmountInCents($orderInfo, $paymentMethod->currency,
+            'amount' => $this->getAmountInCents(
+                $orderInfo,
+                $paymentMethod->currency,
                 $paymentMethod->tax->calculate(
                     $shippingMethod['cost'],
                     $shippingMethod['tax_class_id'],
@@ -634,7 +634,7 @@ class EmsHelper
             }
         }
 
-        return (int) round($taxRate * 100);
+        return (int) $taxRate * 100;
     }
 
     /**

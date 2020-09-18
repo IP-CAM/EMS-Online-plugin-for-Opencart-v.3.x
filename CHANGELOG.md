@@ -28,3 +28,5 @@
 ** 1.5.1 ** 
 
 * Added order lines for Klarna Pay Later payment method
+* Added order lines for AfterPay payment method
+* Fixed incorrect amount value
