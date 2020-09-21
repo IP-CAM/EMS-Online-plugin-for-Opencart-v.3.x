@@ -16,11 +16,6 @@ class EmsHelper
     const DEFAULT_CURRENCY = 'EUR';
 
     /**
-     * @var int
-     */
-    protected $total_amount;
-
-    /**
      * @var string
      */
     protected $paymentMethod;
@@ -273,7 +268,10 @@ class EmsHelper
         $issuerId = array_key_exists('issuer_id', $paymentMethod->request->post)
             ? $paymentMethod->request->post['issuer_id'] : null;
 
+        $total_amount = self::getAmountInCents($orderInfo,$paymentMethod->currency);
+
         return [
+            'amount' => $total_amount,
             'currency' => $this->getCurrency(),
             'merchant_order_id' => $orderInfo['order_id'],
             'return_url' => $paymentMethod->url->link('extension/payment/'.$this->paymentMethod.'/callback'),
@@ -282,8 +280,7 @@ class EmsHelper
             'issuer_id' => $issuerId,
             'webhook_url' => $webhookUrl,
             'payment_info' => [],
-            'order_lines' => $this->getOrderLines($orderInfo, $paymentMethod),
-            'amount' => $this->total_amount,
+            'order_lines' => $this->getOrderLines($orderInfo, $paymentMethod, $total_amount),
             'plugin_version' => ['plugin' => static::getPluginVersion()]
         ];
     }
@@ -537,9 +534,9 @@ class EmsHelper
      * @param $totalAmountInCents
      * @return array
      */
-    public function getOrderLines($orderInfo, $paymentMethod)
+    public function getOrderLines($orderInfo, $paymentMethod, $totalAmountInCents)
     {
-        $this->total_amount = 0;
+        $orderLinesTotalAmountInCents = 0;
         $paymentMethod->load->model('tool/image');
         $orderLines = [];
 
@@ -571,7 +568,7 @@ class EmsHelper
 	        function($value) {
 		        return !is_null($value);
 	        });
-            $this->total_amount += $amount * $item['quantity'];
+            $orderLinesTotalAmountInCents += $amount * $item['quantity'];
         }
 
         if (array_key_exists('shipping_method', $paymentMethod->session->data)
@@ -579,9 +576,20 @@ class EmsHelper
         ) {
             $shipping_costs = $this->getShippingOrderLine($orderInfo, $paymentMethod);
             $orderLines[] = $shipping_costs;
-            $this->total_amount += $shipping_costs['amount'];
+            $orderLinesTotalAmountInCents += $shipping_costs['amount'];
         }
 
+        if (($totalAmountInCents - $orderLinesTotalAmountInCents) != 0) {
+            $orderLines[] = [
+                'name' => 'Overig',
+                'type' => 'physical',
+                'amount' => $totalAmountInCents - $orderLinesTotalAmountInCents,
+                'currency' => 'EUR',
+                'quantity' => 1,
+                'vat_percentage' => 2100,
+                'merchant_order_line_id' => 'miscellaneous',
+            ];
+        }
         return $orderLines;
     }
 
