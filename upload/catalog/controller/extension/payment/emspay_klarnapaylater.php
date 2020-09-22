@@ -180,6 +180,7 @@ class ControllerExtensionPaymentEmspayKlarnaPayLater extends Controller
             'merchant_order_id' => (string) $orderData['merchant_order_id'], // Merchant Order Id
             'return_url' => $orderData['return_url'],                        // Return URL
             'customer' => $orderData['customer'],                            // Customer information
+            'order_lines' => $orderData['order_lines'],                      // Products order lines
             'extra' => $orderData['plugin_version'],                         // Extra information
             'webhook_url' => $orderData['webhook_url'],                      // Webhook URL
             'transactions' => [
