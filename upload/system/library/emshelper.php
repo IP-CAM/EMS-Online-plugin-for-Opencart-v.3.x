@@ -660,6 +660,20 @@ class EmsHelper
     }
 
     /**
+     * @param $countryList
+     * @return bool
+     */
+    public static function countryValidator($countryList, $billingAddress)
+    {
+        if (empty($countryList)) {
+            return true;
+        } else {
+            $arrayCountryList = array_map('trim', explode(',', $countryList));
+            return in_array($billingAddress, $arrayCountryList);
+        }
+    }
+
+    /**
      * @return string
      */
     public static function getPluginVersion()
