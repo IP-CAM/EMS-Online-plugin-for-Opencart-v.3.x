@@ -297,7 +297,7 @@ class EmsHelper
             if ($orderInfo) {
                 $paymentMethod->model_checkout_order->addOrderHistory(
                     $emsOrder['merchant_order_id'](),
-                    $paymentMethod->emsHelper->getOrderStatus($emsOrder['status'], $paymentMethod->config),
+                    $this->getOrderStatus($emsOrder['status'], $paymentMethod->config),
                     'Status changed for order: '.$emsOrder['id'],
                     true
                 );
