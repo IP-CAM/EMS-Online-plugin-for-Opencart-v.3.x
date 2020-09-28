@@ -43,7 +43,7 @@ class EmsHelper
      */
     public function __construct($paymentMethod)
     {
-        require_once(DIR_SYSTEM.'library/emspay/ginger-php/vendor/autoload.php');
+        require_once(DIR_SYSTEM.'library/emspay/vendor/autoload.php');
         $this->paymentMethod = $paymentMethod;
     }
 
@@ -51,7 +51,7 @@ class EmsHelper
      *  func get Cacert.pem path
      */
     public static function getCaCertPath(){
-        return dirname(__FILE__).'/emspay/ginger-php/assets/cacert.pem';
+        return dirname(__FILE__).'/emspay/assets/cacert.pem';
     }
 
 
