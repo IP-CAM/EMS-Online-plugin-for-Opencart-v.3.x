@@ -25,7 +25,7 @@
 
 * Fixed payment URL for Klarna Pay Later
 
-** 1.5.1 ** 
+** 1.6.0 ** 
 
 * Added order lines for Klarna Pay Later payment method
 * Added order lines for AfterPay payment method
