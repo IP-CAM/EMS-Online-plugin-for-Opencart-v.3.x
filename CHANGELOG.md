@@ -25,7 +25,7 @@
 
 * Fixed payment URL for Klarna Pay Later
 
-** 1.5.1 ** 
+** 1.6.0 ** 
 
 * Added order lines for Klarna Pay Later payment method
 * Added order lines for AfterPay payment method
@@ -33,3 +33,4 @@
 * Klarna-Pay-Later: Remove fields gender and birthday from checkout form and customer object
 * Added the ability for AfterPay to be available in the selected countries.
 * Added the AfterPay localization for Netherlands, German and French language.
+* Replaced locally stored ginger-php library on composer library installer."

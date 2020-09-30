@@ -10,7 +10,7 @@ class EmsHelper
     /**
      * EMS Online OpenCart plugin version
      */
-    const PLUGIN_VERSION = '1.5.1';
+    const PLUGIN_VERSION = '1.6.0';
 
     /**
      * Default currency for Order
@@ -43,7 +43,7 @@ class EmsHelper
      */
     public function __construct($paymentMethod)
     {
-        require_once(DIR_SYSTEM.'library/emspay/ginger-php/vendor/autoload.php');
+        require_once(DIR_SYSTEM.'library/emspay/vendor/autoload.php');
         $this->paymentMethod = $paymentMethod;
     }
 
@@ -51,7 +51,7 @@ class EmsHelper
      *  func get Cacert.pem path
      */
     public static function getCaCertPath(){
-        return dirname(__FILE__).'/emspay/ginger-php/assets/cacert.pem';
+        return dirname(__FILE__).'/emspay/assets/cacert.pem';
     }
 
 
@@ -417,7 +417,7 @@ class EmsHelper
         if ($orderInfo) {
             $paymentMethod->model_checkout_order->addOrderHistory(
                 $emsOrder['merchant_order_id'],
-                $paymentMethod->emsHelper->getOrderStatus($emsOrder['status'], $paymentMethod->config),
+                $this->getOrderStatus($emsOrder['status'], $paymentMethod->config),
                 'EMS Online order: '.$emsOrder['id'],
                 true
             );
