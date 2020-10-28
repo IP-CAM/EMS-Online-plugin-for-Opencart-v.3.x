@@ -313,21 +313,6 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ entry_send_webhook }}</label>
-                        <div class="col-sm-10">
-                            <label class="radio-inline">
-                                <input type="radio" name="payment_{{ emspay_module }}_send_webhook" value="1"
-                                        {% if _context['payment_'~emspay_module~'_send_webhook'] is null or _context['payment_'~emspay_module~'_send_webhook'] %} checked="checked" {% endif %}  />
-                                {{ text_yes }}
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="payment_{{ emspay_module }}_send_webhook" value="0"
-                                        {% if _context['payment_'~emspay_module~'_send_webhook'] is not null and not _context['payment_'~emspay_module~'_send_webhook'] %} checked="checked" {% endif %}  />
-                                {{ text_no }}
-                            </label>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
