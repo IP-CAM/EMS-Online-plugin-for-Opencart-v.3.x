@@ -38,3 +38,4 @@
 ** 1.6.1 **
 
 * Removed WebHook option in all payment.
+* Added data filtering in createOrder.
