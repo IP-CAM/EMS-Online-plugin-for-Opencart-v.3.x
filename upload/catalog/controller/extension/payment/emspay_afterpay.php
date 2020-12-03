@@ -45,11 +45,11 @@ class ControllerExtensionPaymentEmspayAfterPay extends Controller
         parent::__construct($registry);
 
         $this->emsHelper = new EmsHelper(static::MODULE_NAME);
-        $this->ems = $this->emsHelper->getClientForAfterPay($this->config);
+        $this->ems = $this->emsHelper->getClientWithTestApiKey($this->config);
     }
     
     /**
-     * Method is an event trigger for capturing Klarna shipped status.
+     * Method is an event trigger for capturing Klarna Pay Later shipped status.
      *
      * @param $route
      * @param $data

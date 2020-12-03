@@ -24,7 +24,7 @@ class ModelExtensionPaymentEmspayKlarnaPayLater extends Model
             $status = false;
         }
 
-        if (!EmsHelper::ipIsEnabled($this->config->get('emspay_klarnapaylater_klarnapaylater_ip_filter'))) {
+        if (!EmsHelper::ipIsEnabled($this->config->get('payment_emspay_klarnapaylater_ip_filter'))) {
             $status = false;
         }
 

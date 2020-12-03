@@ -71,28 +71,14 @@ class EmsHelper
      * @param object $config
      * @return ApiClient
      */
-    public function getClientForAfterPay($config)
+    public function getClientWithTestApiKey($config)
     {
         return $this->getGignerClinet(
-                $config->get($this->getPaymentSettingsFieldName('afterpay_test_api_key'))
+                $config->get($this->getPaymentSettingsFieldName('test_api_key'))
                 ?: $config->get($this->getPaymentSettingsFieldName('api_key')),
                 $config->get($this->getPaymentSettingsFieldName('bundle_cacert'))
                );
     }
-    
-    /**
-     * @param object $config
-     * @return ApiClient
-     */
-    public function getClientForKlarnaPayLater($config)
-    {
-        return $this->getGignerClinet(
-                $config->get($this->getPaymentSettingsFieldName('klarna_test_api_key'))
-                ?: $config->get($this->getPaymentSettingsFieldName('api_key')),
-                $config->get($this->getPaymentSettingsFieldName('bundle_cacert'))
-               );
-    }
-
     
     /**
      * create a gigner clinet instance

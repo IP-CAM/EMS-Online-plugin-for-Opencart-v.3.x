@@ -59,30 +59,30 @@
                         </div>
                     </div>
 
-                    {% if emspay_module == 'emspay_klarna' %}
+                    {% if emspay_module == 'emspay_klarnapaylater' %}
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-klarna-test-api-key">
-								<span data-toggle="tooltip" title="{{ info_help_klarna_test_api_key }}">
-									{{ entry_klarna_test_api_key }}
+                            <label class="col-sm-2 control-label" for="input-klarnapaylater-test-api-key">
+								<span data-toggle="tooltip" title="{{ info_help_klarnapaylater_test_api_key }}">
+									{{ entry_klarnapaylater_test_api_key }}
 								</span>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="payment_{{ emspay_module }}_test_api_key" id="input-klarna-test-api-key"
-                                       value="{{ _context['payment_'~emspay_module~'_test_api_key'] }}" size="50" class="form-control"
-                                       placeholder="{{ info_help_klarna_test_api_key }}"/>
+                                <input type="text" name="payment_emspay_klarnapaylater_test_api_key" id="input-klarnapaylater-test-api-key"
+                                       value="{{ _context['payment_emspay_klarnapaylater_test_api_key'] }}" size="50" class="form-control"
+                                       placeholder="{{ info_help_klarnapaylater_test_api_key }}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-klarna-ip-filter">
-								<span data-toggle="tooltip" title="{{ info_help_klarna_ip_filter }}">
-									{{ entry_klarna_ip_filter }}
+                            <label class="col-sm-2 control-label" for="input-klarnapaylater-ip-filter">
+								<span data-toggle="tooltip" title="{{ info_help_klarnapaylater_ip_filter }}">
+									{{ entry_klarnapaylater_ip_filter }}
 								</span>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" name="payment_{{ emspay_module }}_ip_filter"
                                        value="{{ _context['payment_'~emspay_module~'_ip_filter'] }}"
-                                       placeholder="{{ ems_klarna_ip_filter }}"
-                                       id="input-klarna-ip-filter" class="form-control" />
+                                       placeholder="{{ info_help_klarnapaylater_ip_filter }}"
+                                       id="input-klarnapaylater-ip-filter" class="form-control" />
                             </div>
                         </div>
                     {% endif %}
@@ -95,8 +95,8 @@
 								</span>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="payment_{{ emspay_module }}_test_api_key" id="input-ems-afterpay-test-api-key"
-                                       value="{{ _context['payment_'~emspay_module~'_test_api_key'] }}" size="50" class="form-control"
+                                <input type="text" name="payment_emspay_afterpay_test_api_key" id="input-ems-afterpay-test-api-key"
+                                       value="{{ _context['payment_emspay_afterpay_test_api_key'] }}" size="50" class="form-control"
                                        placeholder="{{ info_help_afterpay_test_api_key }}"/>
                             </div>
                         </div>
@@ -107,9 +107,9 @@
 								</span>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="payment_{{ emspay_module }}_ip_filter"
-                                       value="{{ _context['payment_'~emspay_module~'_ip_filter'] }}"
-                                       placeholder="{{ ems_afterpay_ip_filter }}"
+                                <input type="text" name="payment_emspay_afterpay_ip_filter"
+                                       value="{{ _context['payment_emspay_afterpay_ip_filter'] }}"
+                                       placeholder="{{ info_help_afterpay_ip_filter }}"
                                        id="input-afterpay-ip-filter" class="form-control" />
                             </div>
                         </div>
@@ -121,8 +121,8 @@
                             </span>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="payment_{{ emspay_module }}_country_access" id="input-country-access"
-                                       value="{{ _context['payment_'~emspay_module~'_country_access'] }}"
+                                <input type="text" name="payment_emspay_afterpay_country_access" id="input-country-access"
+                                       value="{{ _context['payment_emspay_afterpay_country_access'] }}"
                                        placeholder="{{ info_example_country_access }}"
                                        class="form-control"/>
                             </div>

@@ -30,7 +30,7 @@ class ControllerExtensionPaymentEmspayKlarnaPayLater extends Controller
         parent::__construct($registry);
 
         $this->emsHelper = new EmsHelper(static::MODULE_NAME);
-        $this->ems = $this->emsHelper->getClientForKlarnaPayLater($this->config);
+        $this->ems = $this->emsHelper->getClientWithTestApiKey($this->config);
     }
     
     /**
