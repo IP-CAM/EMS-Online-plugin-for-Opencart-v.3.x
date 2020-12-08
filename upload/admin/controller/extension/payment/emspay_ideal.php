@@ -77,10 +77,15 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
 	 */
 	protected function validate()
 	{
-		$moduleFieldName = $this->getModuleFieldName('api_key');
-		if ( ! $moduleFieldName ) {
-			$this->error['missing_api'] = $this->language->get('error_missing_api_key');
-		}
+            if (!$this->request->post[$this->getModuleFieldName('api_key')]){
+                if ($this->emsModuleName == 'emspay_klarnapaylater' || $this->emsModuleName == 'emspay_afterpay') {
+                    if (!$this->request->post[$this->getModuleFieldName('test_api_key')]) {
+                        $this->error['missing_api'] = $this->language->get('error_missing_api_key');
+                    }
+                } else {
+                    $this->error['missing_api'] = $this->language->get('error_missing_api_key');
+                }
+            }
 
 		if (!$this->user->hasPermission('modify', 'extension/payment/'.$this->getModuleName())) {
 			$this->error['warning'] = $this->language->get('error_permission');

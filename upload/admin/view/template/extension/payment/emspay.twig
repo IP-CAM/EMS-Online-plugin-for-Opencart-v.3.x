@@ -42,7 +42,7 @@
                 <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-ems"
                       class="form-horizontal">
 
-                    <div class="form-group required">
+                    <div class="form-group {% if emspay_module != 'emspay_klarnapaylater' and emspay_module != 'emspay_afterpay' %} required {% endif %}">
                         <label class="col-sm-2 control-label"
                                for="input-ems-api-key">
                             <span data-toggle="tooltip" title="{{ info_help_api_key }}">
