@@ -39,3 +39,8 @@
 
 * Removed WebHook option in all payment.
 * Updated plugin descriptions.
+
+** 1.6.2 **
+
+* optimized translations
+* fixed IP filtering and 'Test API key' functionality for Afterpay and Klarna Pay Later

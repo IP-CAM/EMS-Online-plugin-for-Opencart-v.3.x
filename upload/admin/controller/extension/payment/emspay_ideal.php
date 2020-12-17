@@ -26,10 +26,8 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
         'order_status_id_captured',
         'total',
         'bundle_cacert',
-        'klarna_ip_filter',
-        'klarna_test_api_key',
-        'afterpay_ip_filter',
-        'afterpay_test_api_key',
+        'ip_filter',
+        'test_api_key',
         'country_access'
     ];
 
@@ -79,10 +77,15 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
 	 */
 	protected function validate()
 	{
-		$moduleFieldName = $this->getModuleFieldName('api_key');
-		if ( ! $moduleFieldName ) {
-			$this->error['missing_api'] = $this->language->get('error_missing_api_key');
-		}
+            if (!$this->request->post[$this->getModuleFieldName('api_key')]){
+                if ($this->emsModuleName == 'emspay_klarnapaylater' || $this->emsModuleName == 'emspay_afterpay') {
+                    if (!$this->request->post[$this->getModuleFieldName('test_api_key')]) {
+                        $this->error['missing_api'] = $this->language->get('error_missing_api_key');
+                    }
+                } else {
+                    $this->error['missing_api'] = $this->language->get('error_missing_api_key');
+                }
+            }
 
 		if (!$this->user->hasPermission('modify', 'extension/payment/'.$this->getModuleName())) {
 			$this->error['warning'] = $this->language->get('error_permission');
@@ -110,49 +113,55 @@ class ControllerExtensionPaymentEmspayIdeal extends Controller
      */
     protected function getTemplateData()
     {
-        return [
-            'heading_title' => $this->language->get('heading_title'),
-            'text_edit_ems' => $this->language->get('text_edit_ems'),
-            'info_help_api_key' => $this->language->get('info_help_api_key'),
-            'info_help_klarna_ip_filter' => $this->language->get('info_help_klarna_ip_filter'),
-            'info_help_klarna_test_api_key' => $this->language->get('info_help_klarna_test_api_key'),
-            'info_help_afterpay_ip_filter' => $this->language->get('info_help_afterpay_ip_filter'),
-            'info_help_afterpay_test_api_key' => $this->language->get('info_help_afterpay_test_api_key'),
-            'info_help_afterpay_country_access' => $this->language->get('info_help_afterpay_country_access'),
-            'info_help_total' => $this->language->get('info_help_total'),
-            'info_example_country_access' => $this->language->get('info_example_country_access'),
-            'entry_ems_api_key' => $this->language->get('entry_ems_api_key'),
-            'entry_order_completed' => $this->language->get('entry_order_completed'),
-            'entry_order_new' => $this->language->get('entry_order_new'),
-            'entry_order_error' => $this->language->get('entry_order_error'),
-            'entry_order_expired' => $this->language->get('entry_order_expired'),
-            'entry_order_cancelled' => $this->language->get('entry_order_cancelled'),
-            'entry_order_processing' => $this->language->get('entry_order_processing'),
-            'entry_order_captured' => $this->language->get('entry_order_captured'),
-            'entry_sort_order' => $this->language->get('entry_sort_order'),
-            'entry_status' => $this->language->get('entry_status'),
-            'entry_ems_total' => $this->language->get('entry_ems_total'),
-            'entry_country_access' => $this->language->get('entry_country_access'),
-            'entry_cacert' =>  $this->language->get('entry_cacert'),
-            'entry_klarna_ip_filter' => $this->language->get('entry_klarna_ip_filter'),
-            'entry_afterpay_ip_filter' => $this->language->get('entry_afterpay_ip_filter'),
-            'entry_klarna_test_api_key' => $this->language->get('entry_klarna_test_api_key'),
-            'entry_afterpay_test_api_key' => $this->language->get('entry_afterpay_test_api_key'),
-            'text_enabled' => $this->language->get('text_enabled'),
-            'text_disabled' => $this->language->get('text_disabled'),
-            'button_save' => $this->language->get('text_button_save'),
-            'button_cancel' => $this->language->get('text_button_cancel'),
-            'text_yes' => $this->language->get('text_yes'),
-            'text_no' => $this->language->get('text_no'),
-            'action' => $this->url->link(
-                'extension/payment/'.$this->getModuleName(), 'user_token='.$this->session->data['user_token'],
-                true
-            ),
-            'cancel' => $this->url->link(
-                'marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment',
-                true
-            )
-        ];
+
+        $data = [
+        'heading_title' => $this->language->get('heading_title'),
+        'text_edit_ems' => $this->language->get('text_edit_ems'),
+        'info_help_api_key' => $this->language->get('info_help_api_key'),
+        'info_help_total' => $this->language->get('info_help_total'),
+        'entry_ems_api_key' => $this->language->get('entry_ems_api_key'),
+        'entry_order_completed' => $this->language->get('entry_order_completed'),
+        'entry_order_new' => $this->language->get('entry_order_new'),
+        'entry_order_error' => $this->language->get('entry_order_error'),
+        'entry_order_expired' => $this->language->get('entry_order_expired'),
+        'entry_order_cancelled' => $this->language->get('entry_order_cancelled'),
+        'entry_order_processing' => $this->language->get('entry_order_processing'),
+        'entry_order_captured' => $this->language->get('entry_order_captured'),
+        'entry_sort_order' => $this->language->get('entry_sort_order'),
+        'entry_status' => $this->language->get('entry_status'),
+        'entry_ems_total' => $this->language->get('entry_ems_total'),
+        'entry_country_access' => $this->language->get('entry_country_access'),
+        'entry_cacert' =>  $this->language->get('entry_cacert'),
+        'text_enabled' => $this->language->get('text_enabled'),
+        'text_disabled' => $this->language->get('text_disabled'),
+        'button_save' => $this->language->get('text_button_save'),
+        'button_cancel' => $this->language->get('text_button_cancel'),
+        'text_yes' => $this->language->get('text_yes'),
+        'text_no' => $this->language->get('text_no'),
+        'action' => $this->url->link(
+            'extension/payment/'.$this->getModuleName(), 'user_token='.$this->session->data['user_token'],
+            true
+        ),
+        'cancel' => $this->url->link(
+            'marketplace/extension', 'user_token='.$this->session->data['user_token'] . '&type=payment',
+            true
+        )
+    ];
+        $emsModuleName = $this->getModuleName();
+        if($emsModuleName == 'emspay_klarnapaylater'){
+            $data['info_help_klarnapaylater_ip_filter'] = $this->language->get('info_help_klarnapaylater_ip_filter');
+            $data['info_help_klarnapaylater_test_api_key'] = $this->language->get('info_help_klarnapaylater_test_api_key');
+            $data['entry_klarnapaylater_ip_filter'] = $this->language->get('entry_klarnapaylater_ip_filter');
+            $data['entry_klarnapaylater_test_api_key'] = $this->language->get('entry_klarnapaylater_test_api_key');
+        }
+        if($emsModuleName == 'emspay_afterpay'){
+            $data['info_help_afterpay_ip_filter'] = $this->language->get('info_help_afterpay_ip_filter');
+            $data['info_help_afterpay_test_api_key'] = $this->language->get('info_help_afterpay_test_api_key');
+            $data['entry_afterpay_ip_filter'] = $this->language->get('entry_afterpay_ip_filter');
+            $data['entry_afterpay_test_api_key'] = $this->language->get('entry_afterpay_test_api_key');
+            $data['info_example_country_access'] = $this->language->get('info_example_country_access');
+        }
+        return $data;
     }
 
 	/**
