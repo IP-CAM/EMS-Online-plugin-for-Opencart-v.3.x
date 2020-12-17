@@ -29,7 +29,7 @@ class ModelExtensionPaymentEmspayAfterpay extends Model
             $this->session->data['payment_address']['iso_code_2'])) {
             $status = false;
         }
-        if (!EmsHelper::ipIsEnabled($this->config->get('emspay_afterpay_afterpay_ip_filter'))) {
+        if (!EmsHelper::ipIsEnabled($this->config->get('payment_emspay_afterpay_ip_filter'))) {
             $status = false;
         }
 
