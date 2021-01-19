@@ -10,7 +10,7 @@ class EmsHelper
     /**
      * EMS Online OpenCart plugin version
      */
-    const PLUGIN_VERSION = '1.6.2';
+    const PLUGIN_VERSION = '1.6.3';
 
     /**
      * Default currency for Order
@@ -281,7 +281,7 @@ class EmsHelper
             $orderInfo = $paymentMethod->model_checkout_order->getOrder($emsOrder['merchant_order_id']);
             if ($orderInfo) {
                 $paymentMethod->model_checkout_order->addOrderHistory(
-                    $emsOrder['merchant_order_id'](),
+                    $emsOrder['merchant_order_id'],
                     $this->getOrderStatus($emsOrder['status'], $paymentMethod->config),
                     'Status changed for order: '.$emsOrder['id'],
                     true
