@@ -44,3 +44,7 @@
 
 * optimized translations
 * fixed IP filtering and 'Test API key' functionality for Afterpay and Klarna Pay Later
+
+** 1.6.3 **
+
+* fixed history status updating
