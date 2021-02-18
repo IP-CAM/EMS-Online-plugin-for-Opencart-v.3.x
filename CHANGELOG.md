@@ -48,3 +48,7 @@
 ** 1.6.3 **
 
 * fixed history status updating
+
+** 1.6.4 **
+
+* added refund functionality
