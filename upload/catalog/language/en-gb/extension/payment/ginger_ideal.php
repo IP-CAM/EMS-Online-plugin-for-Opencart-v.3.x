@@ -17,3 +17,5 @@ $_['pending_message'] = 'We did not receive a confirmation from your bank or car
 $_['pending_message_sub'] = 'You will receive a message as soon as we have received this.';
 
 $_['error_another_payment_method'] = '<br/>There was an error processing your order with the chosen payment method. We apologize for the inconvenience. Please choose another payment method.';
+$_['text_error_invalid_selected_issuer'] = 'Please, choose your bank!';
+$_['text_choose_bank_issuer'] = 'Choose your bank:';

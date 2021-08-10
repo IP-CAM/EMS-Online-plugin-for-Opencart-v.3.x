@@ -17,3 +17,5 @@ $_['pending_message'] = 'Wir haben keine Bestätigung von Ihrem Bank - oder Kart
 $_['pending_message_sub'] = 'Sie erhalten eine Nachricht, sobald wir diese entfangen haben.';
 
 $_['error_another_payment_method'] = "<br/>Leider ist ein Fehler bei der Verarbeitung Ihrer Bezahlung aufgetreten. Wir bitten um Entschuldigung für jegliche Unannehmlichkeiten. Bitte eine andere Zahlungsart zu wahlen.";
+$_['text_error_invalid_selected_issuer'] = 'Bitte wählen Sie Ihre Bank!';
+$_['text_choose_bank_issuer'] = 'Wählen Sie Ihre Bank:';
