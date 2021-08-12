@@ -54,6 +54,12 @@ Manual installation using (s)FTP
 - Configure the order statuses.
 - Configure the order statuses in your OpenCart admin environment as follows:
 
+Manual installation by uploading ZIP file from OpenCart3 administration environment
+
+1. Go to your OpenCart3 admin environment, after that go to ‘Extensions’ > ‘Installer’.
+2. Press ‘Upload’.
+3. Select the ems-online-opencart-3.ocmod.zip file.
+   
 Order status field	Select status
 Order New	Pending
 Order Processing	Processing
