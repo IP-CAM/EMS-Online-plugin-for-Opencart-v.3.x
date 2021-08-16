@@ -52,3 +52,18 @@
 ** 1.6.4 **
 
 * added refund functionality
+
+** 1.7.0 ** 
+
+*Refactored code to handle GPE solution.
+*Unified bank labels to handle GPE solution.
+*Added Bank Config class.
+*Added Bank Twins for handling custom bank functionality requests.
+*Implemented GitHubActions.
+*Added AfterMerge & CreateOrder PHPUnit tests.
+*Added Sofort, Klarna Direct Debit, Google Pay payment methods
+*Implemented multi-currency
+*Removed pre-selected iDEAL bank-issuer
+*Fixed bugs in refund&capture functionality
+*Changed .zip in a release, added .ocmod to the archieve name and deleted unnecessary files (changelog, readme)
+*Added installation guide through admin panel to README file

@@ -36,7 +36,7 @@ Click on the yellow button [Begin→]
 simply request your live account.
 
 ## Version number
-Version 1.6.4
+Version 1.7.0
 
 ## Pre-requisites to install the plug-ins: 
 - PHP v5.4 and above
@@ -50,10 +50,17 @@ Manual installation using (s)FTP
 3. Select which EMS PAY payment methods you would like to install and click the ‘Install’ icon.
 4. After successfully installing the payment method, click the ‘Edit’ icon to configure the selected payment method.
 5. Configure the EMS PAY payment method.
+
+Manual installation by uploading ZIP file from OpenCart3 administration environment
+
+1. Go to your OpenCart3 admin environment, after that go to ‘Extensions’ > ‘Installer’.
+2. Press ‘Upload’.
+3. Select the ems-online-opencart-3.ocmod.zip file.
+
 - Copy the API key (test api key: 8ca6aefd46154303b0684a90c69136af).
 - Configure the order statuses.
 - Configure the order statuses in your OpenCart admin environment as follows:
-
+ 
 Order status field	Select status
 Order New	Pending
 Order Processing	Processing
