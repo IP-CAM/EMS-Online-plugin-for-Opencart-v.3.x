@@ -5,6 +5,7 @@ class GingerBankConfig
 {
     const BANK_PREFIX = "emspay";
     const BANK_LABEL = "EMS Online";
+    const PLUGIN_NAME = "emspay-online-opencart-3";
 
     const BANK_ENDPOINT = 'https://api.online.emspay.eu';
 
