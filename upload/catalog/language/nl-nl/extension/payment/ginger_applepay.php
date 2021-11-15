@@ -16,3 +16,5 @@ $_['pending_message'] = 'We hebben nog geen bevestiging van uw bank of kaartuitg
 $_['pending_message_sub'] = 'U ontvangt een bericht zodra we deze hebben ontvangen.';
 
 $_['error_another_payment_method'] = "<br/>Helaas is er een fout opgetreden tijdens het verwerken van uw betaling met de gekozen payment methode. Onze excuses voor het ongemak. Kies een andere betaalmethode AUB.";
+
+$_['applepay_isnt_available'] = 'Apple Pay is niet beschikbaar voor uw apparaat';

@@ -16,3 +16,5 @@ $_['pending_message'] = 'Nous avons pas reçu la confirmation de votre banque ou
 $_['pending_message_sub'] = 'Vous recevrez un message dès que nous recevrons ceci.';
 
 $_['error_another_payment_method'] = "<br/>Il y avait une erreur lors du traitement de votre commande avec le methode de paiment que vous avez choisi. Nous nous excusons pour le dérangement. Veuillez choisir une autre méthode de paiement.";
+
+$_['applepay_isnt_available'] = "Apple Pay n'est pas disponible pour votre appareil";
