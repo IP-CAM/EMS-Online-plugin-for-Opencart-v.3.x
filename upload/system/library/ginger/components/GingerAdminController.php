@@ -46,6 +46,7 @@ class GingerAdminController extends \Controller
     {
 
         $this->load->model('setting/event');
+        $this->load->model('setting/setting');
 
         $this->model_setting_event->addEvent(
             $this->paymentName.'_ginger_refund_order',
@@ -68,11 +69,17 @@ class GingerAdminController extends \Controller
             );
         }
 
-        if ($this instanceof GingerCountryValidation)
-        {
-            $this->load->model('setting/setting');
-            $this->model_setting_setting->editSetting('payment_'.$this->paymentName, ['payment_'.$this->paymentName.'_country_access' => 'NL, BE']);
-        }
+        $this->model_setting_setting->editSetting('payment_'.$this->paymentName, [
+            'payment_'.$this->paymentName.'_order_status_id_new' => '1',
+            'payment_'.$this->paymentName.'_order_status_id_processing' => '2',
+            'payment_'.$this->paymentName.'_order_status_id_error' => '10',
+            'payment_'.$this->paymentName.'_order_status_id_cancelled' => '7',
+            'payment_'.$this->paymentName.'_order_status_id_expired' => '14',
+            'payment_'.$this->paymentName.'_order_status_id_captured' => '3',
+            'payment_'.$this->paymentName.'_order_status_id_completed' => '5',
+            'payment_'.$this->paymentName.'_country_access' => ($this instanceof GingerCountryValidation) ? 'NL, BE' : ''
+        ]);
+
     }
 
     public function uninstall()

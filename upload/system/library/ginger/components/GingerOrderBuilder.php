@@ -34,6 +34,7 @@ class GingerOrderBuilder
         $order['customer'] = $this->getCustomerInformation();
         $order['extra'] = $this->getExtra();
         $order['webhook_url'] = $this->getWebhookURL();
+        $order['order_lines'] = $this->getOrderLines($this->getAmountInCents());
         $transactions = $this->getOrderTransactions();
 
         if ($this->paymentMethodObj instanceof GingerIssuers)
@@ -45,12 +46,6 @@ class GingerOrderBuilder
         }
 
         $order['transactions'][] = $transactions;
-
-        if ($this->paymentMethodObj instanceof GingerOrderLines)
-        {
-            $order['order_lines'] = $this->getOrderLines($this->getAmountInCents());
-        }
-
 
         return $order;
     }
@@ -78,7 +73,7 @@ class GingerOrderBuilder
      */
     public function getPaymentMethod(): string
     {
-            return GingerBankConfig::gingerPaymentNameMapping($this->paymentMethodObj->paymentName);
+        return GingerBankConfig::gingerPaymentNameMapping($this->paymentMethodObj->paymentName);
     }
 
 
@@ -88,7 +83,11 @@ class GingerOrderBuilder
     public function getExtra(): array
     {
         return [
-            'plugin' => $this->getPluginVersion()
+            'user_agent' => $this->getUserAgent(),
+            'platform_name' => $this->getPlatformName(),
+            'platform_version' => $this->getPlatformVersion(),
+            'plugin_name' => $this->getPluginName(),
+            'plugin_version' => $this->getPluginVersion()
         ];
     }
 
@@ -204,7 +203,7 @@ class GingerOrderBuilder
      */
     public function getPluginVersion(): string
     {
-        return sprintf('OpenCart v%s', $this->paymentMethodObj::PLUGIN_VERSION);
+        return $this->paymentMethodObj::PLUGIN_VERSION;
     }
 
     /**
@@ -405,7 +404,25 @@ class GingerOrderBuilder
         return $this->orderInfo['customer_id'];
     }
 
+    public function getUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'];
+    }
 
+    public function getPluginName()
+    {
+        return GingerBankConfig::PLUGIN_NAME;
+    }
+    public function getPlatformName()
+    {
+        return 'OpenCart3';
+    }
+
+    public function getPlatformVersion()
+    {
+        return VERSION;
+
+    }
 
 
 }

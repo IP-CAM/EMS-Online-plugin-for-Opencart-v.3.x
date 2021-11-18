@@ -55,15 +55,22 @@
 
 ** 1.7.0 ** 
 
-*Refactored code to handle GPE solution.
-*Unified bank labels to handle GPE solution.
-*Added Bank Config class.
-*Added Bank Twins for handling custom bank functionality requests.
-*Implemented GitHubActions.
-*Added AfterMerge & CreateOrder PHPUnit tests.
-*Added Sofort, Klarna Direct Debit, Google Pay payment methods
-*Implemented multi-currency
-*Removed pre-selected iDEAL bank-issuer
-*Fixed bugs in refund&capture functionality
-*Changed .zip in a release, added .ocmod to the archieve name and deleted unnecessary files (changelog, readme)
-*Added installation guide through admin panel to README file
+* Refactored code to handle GPE solution.
+* Unified bank labels to handle GPE solution.
+* Added Bank Config class.
+* Added Bank Twins for handling custom bank functionality requests.
+* Implemented GitHubActions.
+* Added AfterMerge & CreateOrder PHPUnit tests.
+* Added Sofort, Klarna Direct Debit, Google Pay payment methods
+* Implemented multi-currency
+* Removed pre-selected iDEAL bank-issuer
+* Fixed bugs in refund&capture functionality
+* Changed .zip in a release, added .ocmod to the archieve name and deleted unnecessary files (changelog, readme)
+* Added installation guide through admin panel to README file
+
+** 1.7.1 **
+
+* Updated default orders statuses for each payment method on the settings page
+* Updated the extra field in an order, Refactored PHPUnit tests to correspond the updated extra field 
+* Added ApplePay detection
+* Added OrderLines in each order
