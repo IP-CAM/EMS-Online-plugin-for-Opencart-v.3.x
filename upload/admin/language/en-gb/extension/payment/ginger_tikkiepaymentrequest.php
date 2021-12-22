@@ -40,7 +40,7 @@ $_['text_no'] = 'No';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = 'EMS Online API Key is required!';
+$_['error_missing_api_key'] = 'API key is empty. Please, set API key and try again';
 
 /**
  * Information text
@@ -54,4 +54,4 @@ $_['info_plugin_not_configured'] = 'EMS Online: Tikkie Payment Request plugin is
  */
 $_['empty_price'] = 'The price is empty in the refund product information.';
 $_['wrong_order_status'] = 'Only completed orders can be refunded.';
-$_['refund_not_completed'] = 'Refund order is not completed.';
+$_['refund_not_completed'] = 'Refund is not completed.';
