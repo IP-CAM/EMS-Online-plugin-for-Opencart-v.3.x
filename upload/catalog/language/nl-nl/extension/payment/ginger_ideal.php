@@ -18,4 +18,4 @@ $_['pending_message_sub'] = 'U ontvangt een bericht zodra we deze hebben ontvang
 
 $_['error_another_payment_method'] = "<br/>Helaas is er een fout opgetreden tijdens het verwerken van uw betaling met de gekozen payment methode. Onze excuses voor het ongemak. Kies een andere betaalmethode AUB.";
 $_['text_error_invalid_selected_issuer'] = "Kies alstublieft uw bank!";
-$_['text_choose_bank_issuer'] = 'Kies uw bank:';
+$_['text_choose_bank_issuer'] = 'Selecteer uw bank:';

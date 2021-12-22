@@ -41,7 +41,7 @@ $_['text_no'] = 'Nee';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = 'EMS Online API Key is verplicht!';
+$_['error_missing_api_key'] = 'API-sleutel is leeg. Stel de API-sleutel in en probeer het opnieuw';
 
 /**
  * Information text
@@ -62,4 +62,4 @@ $_['info_example_country_access'] = 'BE, NL, FR';
 $_['empty_price'] = 'De prijs is leeg in de productinformatie voor terugbetaling.';
 $_['wrong_order_status'] = 'Alleen voltooide bestellingen kunnen worden terugbetaald.';
 $_['order_not_captured'] = 'Restitutie alleen mogelijk bij opname.';
-$_['refund_not_completed'] = 'De bestelling voor terugbetaling is niet voltooid.';
+$_['refund_not_completed'] = 'Terugbetaling is niet voltooid.';
