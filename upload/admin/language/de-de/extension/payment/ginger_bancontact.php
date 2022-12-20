@@ -40,7 +40,7 @@ $_['text_no'] = 'Nein';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = 'API-Schlüssel ist leer. Bitte legen Sie den API-Schlüssel fest und versuchen Sie es erneut';
+$_['error_missing_api_key'] = 'EMS Online API schlüssel ist erforderlich!';
 
 /**
  * Information text
@@ -54,6 +54,4 @@ $_['info_plugin_not_configured'] = 'EMS Online: Bancontact plugin ist nicht konf
  */
 $_['empty_price'] = 'Der Preis ist in den Produktinformationen zur Rückerstattung leer.';
 $_['wrong_order_status'] = 'Nur abgeschlossene Bestellungen können erstattet werden.';
-$_['refund_not_completed'] = 'Rückerstattung ist nicht abgeschlossen.';
-
-
+$_['refund_not_completed'] = 'Rückerstattungsauftrag ist nicht abgeschlossen.';

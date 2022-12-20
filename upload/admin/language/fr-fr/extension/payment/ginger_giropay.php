@@ -3,8 +3,8 @@
 /**
  * General Admin Settings Page
  */
-$_['heading_title'] = 'EMS Online: Plugin';
-$_['text_ginger'] = '<img src="view/image/payment/ginger.png" alt="EMS Online" title="EMS Online" />';
+$_['heading_title'] = 'EMS Online: GiroPay ';
+$_['text_ginger_giropay'] = '<img src="view/image/payment/ginger_giropay.jpg" alt="EMS Online" title="EMS Online" />';
 $_['text_extension'] = 'Extensions';
 
 /**
@@ -32,8 +32,8 @@ $_['text_enabled'] = 'Activé';
 $_['text_disabled'] = 'Désactivé';
 $_['text_payments'] = 'Paiements';
 $_['text_issuer_id'] = 'SWIFT/BIC';
-$_['text_settings_saved'] = 'EMS Online: Paramètres Plugin mis a jour!';
-$_['text_edit_ginger'] = 'Modifier EMS Online: Paramètres Plugin';
+$_['text_settings_saved'] = 'EMS Online: Paramètres GiroPay mis à jour!';
+$_['text_edit_ginger'] = 'Modifier EMS Online: Paramètres GiroPay';
 $_['text_yes'] = 'Oui';
 $_['text_no'] = 'Non';
 
@@ -47,7 +47,7 @@ $_['error_missing_api_key'] = 'EMS Online clé API est obligatoire!';
  */
 $_['info_help_api_key'] = 'Obtenez votre EMS Online clé API du portail marchand.';
 $_['info_help_total'] = 'Le total de la caisse que la commande doit atteindre avant que ce mode de paiement devient actif.';
-$_['info_plugin_not_configured'] = 'EMS Online: Plugin Plugin est pas configuré.';
+$_['info_plugin_not_configured'] = 'EMS Online: Plugin GiroPay est pas configuré.';
 
 /**
  * Refund text

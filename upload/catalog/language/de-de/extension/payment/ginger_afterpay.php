@@ -25,5 +25,5 @@ $_['text_please_select_gender_female'] = 'Frau';
 $_['error_another_payment_method'] = "<br/>Leider ist ein Fehler bei der Verarbeitung Ihrer Bezahlung aufgetreten. Wir bitten um Entschuldigung für jegliche Unannehmlichkeiten. Bitte eine andere Zahlungsart zu wahlen.";
 
 $_['error_please_accept_tc'] = 'Bitte akzeptieren Sie die Nutzungsbedingungen!';
-$_['error_invalid_dob'] = 'Beim eingegebenen Geburtsdatum ist ein Fehler aufgetreten. Bitte verwenden Sie für die Eingabe des Geburtsdatums folgendes Format: JJJJ-MM-TT, z.B.: 1980-12-31.';
+$_['error_invalid_dob'] = 'Leider ist ein Fehler aufgetreten mit dem Geburtsdatum. Bitte geben Sie das Geburtsdatum im folgenden Format an: TT-MM-JJJJ, Z.B. 31-12-1980.';
 $_['text_afterpay_cancelled_statue_error_message'] = 'We are sorry to inform you that your request to pay afterwards cannot be accepted by AfterPay. This could have been caused by various (temporary) reasons. If you have any questions pertaining to your rejection, please contact the AfterPay Customer Service via link https://www.afterpay.nl/en/customers/contact or by phone via +31 20 72 30 270. We advise you to select another payment method to complete the payment of your order.';

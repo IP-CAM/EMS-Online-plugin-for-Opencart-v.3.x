@@ -3,8 +3,8 @@
 /**
  * General Admin Settings Page
  */
-$_['heading_title'] = 'EMS Online: Plugin';
-$_['text_ginger'] = '<img src="view/image/payment/ginger.png" alt="EMS Online" title="EMS Online" />';
+$_['heading_title'] = 'EMS Online: Swish';
+$_['text_ginger_swish'] = '<img src="view/image/payment/ginger_swish.jpg" alt="EMS Online" title="EMS Online" />';
 $_['text_extension'] = 'Extensions';
 
 /**
@@ -32,8 +32,8 @@ $_['text_enabled'] = 'Enabled';
 $_['text_disabled'] = 'Disabled';
 $_['text_payments'] = 'Payments';
 $_['text_issuer_id'] = 'SWIFT/BIC';
-$_['text_settings_saved'] = 'EMS Online: Plugin settings updated!';
-$_['text_edit_ginger'] = 'Edit EMS Online: Plugin Settings';
+$_['text_settings_saved'] = 'EMS Online: Swish settings updated!';
+$_['text_edit_ginger'] = 'Edit EMS Online: Swish Settings';
 $_['text_yes'] = 'Yes';
 $_['text_no'] = 'No';
 
@@ -46,8 +46,8 @@ $_['error_missing_api_key'] = 'EMS Online API Key is required!';
  * Information text
  */
 $_['info_help_api_key'] = 'Get your EMS Online API key from Payments merchant portal.';
-$_['info_help_total'] = 'The checkout total the order must reach before this payment method becomes active.';
-$_['info_plugin_not_configured'] = 'EMS Online: Plugin plugin is not configured.';
+$_['info_help_total'] = 'The payment method will only be presented if the total checkout amount of an order is higher than this threshold.';
+$_['info_plugin_not_configured'] = 'EMS Online: Swish plugin is not configured.';
 
 /**
  * Refund text

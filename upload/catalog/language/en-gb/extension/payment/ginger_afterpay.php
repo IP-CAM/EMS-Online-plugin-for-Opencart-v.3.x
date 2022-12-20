@@ -18,12 +18,12 @@ $_['pending_message_sub'] = 'You will receive a message as soon as we have recei
 $_['text_terms_and_conditions'] = 'Terms & Conditions';
 $_['text_i_accept'] = 'I accept AfterPay';
 $_['text_please_enter_dob'] = 'Enter your date of birth';
-$_['text_please_select_gender'] = 'Please select your gender';
+$_['text_please_select_gender'] = 'Select your gender';
 $_['text_please_select_gender_male'] = 'Male';
 $_['text_please_select_gender_female'] = 'Female';
 
 $_['error_another_payment_method'] = '<br/>There was an error processing your order with the chosen payment method. We apologize for the inconvenience. Please choose another payment method.';
 
 $_['error_please_accept_tc'] = 'Please accept AfterPay Terms & Conditions!';
-$_['error_invalid_dob'] = 'There was an error with the date of birth that you entered. Please use the following format for entering the birth date : YYYY-MM-DD, e.g.: 1980-12-31.';
+$_['error_invalid_dob'] = 'There was an error with the date of birth that you entered. Please use the following format for entering the birth date : DD-MM-YYYY, e.g.: 31-12-1980.';
 $_['text_afterpay_cancelled_statue_error_message'] = 'We are sorry to inform you that your request to pay afterwards cannot be accepted by AfterPay. This could have been caused by various (temporary) reasons. If you have any questions pertaining to your rejection, please contact the AfterPay Customer Service via link https://www.afterpay.nl/en/customers/contact or by phone via +31 20 72 30 270. We advise you to select another payment method to complete the payment of your order.';

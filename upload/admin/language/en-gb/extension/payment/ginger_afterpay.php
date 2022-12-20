@@ -41,7 +41,7 @@ $_['text_no'] = 'No';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = 'API key is empty. Please, set API key and try again';
+$_['error_missing_api_key'] = 'EMS Online API Key is required!';
 
 /**
  * Information text
@@ -51,7 +51,7 @@ $_['info_help_total'] = 'The payment method will only be presented if the total 
 $_['info_plugin_not_configured'] = 'EMS Online: AfterPay plugin is not configured.';
 $_['info_help_afterpay_ip_filter'] = 'If entered, only for those IPs payment method will be displayed. (Example: 128.0.0.1, 255.255.255.255)';
 $_['entry_afterpay_ip_filter'] = 'IP Filtering:';
-$_['entry_afterpay_test_api_key'] = 'EMS Online Test API Key:';
+$_['entry_afterpay_test_api_key'] = 'Test API Key:';
 $_['info_help_afterpay_test_api_key'] = 'If entered this API key will be used for testing purposes.';
 $_['info_help_country_access'] = "To allow AfterPay to be used for any other country just add its country code (in ISO 2 standard) to the &#34;Countries available for AfterPay&#34; field. <br> Example: BE, NL, FR <br> If field is empty then AfterPay will be available for all countries.";
 $_['info_example_country_access'] = 'BE, NL, FR';
@@ -61,5 +61,5 @@ $_['info_example_country_access'] = 'BE, NL, FR';
  */
 $_['empty_price'] = 'The price is empty in the refund product information.';
 $_['wrong_order_status'] = 'Only completed orders can be refunded.';
-$_['refund_not_completed'] = 'Refund is not completed.';
-$_['order_not_captured'] = 'Refunds only possible when order is captured.';
+$_['order_not_captured'] = 'Refunds only possible when captured.';
+$_['refund_not_completed'] = 'Refund order is not completed.';

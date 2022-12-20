@@ -40,7 +40,7 @@ $_['text_no'] = 'Nee';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = 'API-sleutel is leeg. Stel de API-sleutel in en probeer het opnieuw';
+$_['error_missing_api_key'] = 'EMS Online API Key is verplicht!';
 
 /**
  * Information text
@@ -54,4 +54,4 @@ $_['info_plugin_not_configured'] = 'EMS Online: Klarna Pay Now plugin is niet in
  */
 $_['empty_price'] = 'De prijs is leeg in de productinformatie voor terugbetaling.';
 $_['wrong_order_status'] = 'Alleen voltooide bestellingen kunnen worden terugbetaald.';
-$_['refund_not_completed'] = 'Terugbetaling is niet voltooid.';
+$_['refund_not_completed'] = 'De bestelling voor terugbetaling is niet voltooid.';

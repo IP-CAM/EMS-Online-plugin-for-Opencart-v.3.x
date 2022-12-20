@@ -40,7 +40,7 @@ $_['text_no'] = 'Non';
 /**
  * Error messages
  */
-$_['error_missing_api_key'] = "La clé API est vide. Veuillez définir la clé API et réessayer";
+$_['error_missing_api_key'] = 'EMS Online clé API est obligatoire!';
 
 /**
  * Information text
@@ -54,6 +54,4 @@ $_['info_plugin_not_configured'] = 'EMS Online: Plugin Google Pay est pas config
  */
 $_['empty_price'] = 'Le prix est vide dans les informations sur le produit de remboursement.';
 $_['wrong_order_status'] = 'Seules les commandes terminées peuvent être remboursées.';
-$_['refund_not_completed'] = "Le remboursement n'est pas terminé.";
-
-
+$_['refund_not_completed'] = 'La commande de remboursement n\'est pas terminée.';
