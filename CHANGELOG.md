@@ -74,3 +74,10 @@
 * Updated the extra field in an order, Refactored PHPUnit tests to correspond the updated extra field 
 * Added ApplePay detection
 * Added OrderLines in each order
+
+** 1.7.2 **
+
+* Removed unavailable payment methods
+* Added caching the array of currency
+* Added possibility to skip the intermediate page with terms of condition in AfterPay
+* Added Swish, MobilePay, GiroPay

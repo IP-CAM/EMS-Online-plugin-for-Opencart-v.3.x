@@ -19,35 +19,9 @@ class GingerHelper
     const GINGER_STATUS_CAPTURED = 'captured';
 
     /**
-     * T&C url for Dutch loclae
-     */
-    const TERMS_CONDITION_URL_NL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
-
-    /**
-     * T&C url for Belgium loclae
-     */
-    const TERMS_CONDITION_URL_BE = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
-
-    /**
-     * Belgium iso 2 code
-     */
-    const BE_ISO_CODE = 'BE';
-
-
-    /**
      * @var string
      */
     protected $paymentMethod;
-    /**
-     * get t&c url based on user locale
-     *
-     * @param string $iso2code
-     * @return string
-     */
-    public static function getTermsAndConditionUrlByCountryIsoLocale($iso2code): string
-    {
-        return strtoupper($iso2code) === self::BE_ISO_CODE ? self::TERMS_CONDITION_URL_BE : self::TERMS_CONDITION_URL_NL;
-    }
 
     /**
      * @param string $paymentMethod
@@ -67,40 +41,30 @@ class GingerHelper
     {
         switch ($gingerOrderStatus) {
             case GingerHelper::GINGER_STATUS_EXPIRED:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_expired'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_expired');
                 break;
             case GingerHelper::GINGER_STATUS_PROCESSING:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_processing'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_processing');
                 break;
             case GingerHelper::GINGER_STATUS_COMPLETED:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_completed'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_completed');
                 break;
             case GingerHelper::GINGER_STATUS_CANCELLED:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_cancelled'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_cancelled');
                 break;
             case GingerHelper::GINGER_STATUS_ERROR:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_error'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_error');
                 break;
             case GingerHelper::GINGER_STATUS_CAPTURED:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_captured'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_captured');
                 break;
             default:
-                $orderStatus = $config->get($this->getPaymentSettingsFieldName('order_status_id_new'));
+                $orderStatus = $config->get('payment_ginger_order_status_id_new');
                 break;
         }
 
         return $orderStatus;
     }
-
-    /**
-     * @param string $fieldName
-     * @return string
-     */
-    public function getPaymentSettingsFieldName($fieldName)
-    {
-        return 'payment_' . $this->paymentMethod.'_'.$fieldName;
-    }
-
 
     /**
      * Method prepares Ajax response for processing page

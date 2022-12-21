@@ -11,7 +11,7 @@ use interfaces\GingerTestAPIKey;
 class GingerPluginController extends \Controller
 {
 
-    const PLUGIN_VERSION = "1.7.1";
+    const PLUGIN_VERSION = "1.7.2";
 
     public $gingerClient;
     public $gingerHelper;
@@ -32,13 +32,15 @@ class GingerPluginController extends \Controller
             $testApiKey = $this->config->get('payment_'.$gingerModuleName.'_'.'test_api_key') ?: null;
         }
 
-        $apiKey = $testApiKey ?? $this->config->get('payment_'.$gingerModuleName.'_'.'api_key');
+        $apiKey = $testApiKey ?? $this->config->get('payment_ginger_api_key');
 
         $this->gingerClient = GingerBankClientBuilder::getClient(
             $apiKey,
-            $this->config->get('payment_'.$gingerModuleName.'_'.'bundle_cacert') ? true : false
+            $this->config->get('payment_ginger_bundle_cacert') ? true : false
         );
     }
+
+
 
     /**
      * Index Action
@@ -75,7 +77,7 @@ class GingerPluginController extends \Controller
             $data['text_please_select_gender'] = $this->language->get('text_please_select_gender');
             $data['text_please_select_gender_male'] = $this->language->get('text_please_select_gender_male');
             $data['text_please_select_gender_female'] = $this->language->get('text_please_select_gender_female');
-            $data['terms_conditions_url'] = GingerBankHelper::getTermsAndConditionUrlByCountryIsoLocale($this->session->data['payment_address']['iso_code_2']);
+            $data['terms_conditions_url'] = ($this->session->data['payment_address']['iso_code_2'] == 'NL') ? static::TERMS_CONDITION_URL_NL : static::TERMS_CONDITION_URL_EN;
         }
 
         return $this->load->view('extension/payment/'.$gingerModuleName, $data);

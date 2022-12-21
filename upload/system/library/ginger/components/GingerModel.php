@@ -10,8 +10,33 @@ use banktwins\GingerBankClientBuilder;
 class GingerModel extends \Model
 {
 
+    use MultiCurrencyCaching;
+    private $gingerClient;
+
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+
+        if ($this instanceof GingerTestAPIKey)
+        {
+            $testApiKey = $this->config->get('payment_'.$this->paymentName.'_'.'test_api_key') ?: null;
+        }
+
+        $apiKey = $testApiKey ?? $this->config->get('payment_ginger_api_key');
+
+        $this->gingerClient = GingerBankClientBuilder::getClient(
+            $apiKey,
+            $this->config->get('payment_ginger_bundle_cacert') ? true : false
+        );
+    }
+
     public function getMethod($address, $total)
     {
+        if ($this->paymentName == 'ginger') //skip plugin configuration extension
+        {
+            return [];
+        }
+
         $this->load->language('extension/payment/'.$this->paymentName);
 
         $query = $this->db->query("SELECT *
@@ -71,25 +96,17 @@ class GingerModel extends \Model
 
     public function currencyValidation()
     {
-        if ($this instanceof GingerTestAPIKey)
-        {
-            $testApiKey = $this->config->get('payment_'.$this->paymentName.'_'.'test_api_key') ?: null;
-        }
-
-        $apiKey = $testApiKey ?? $this->config->get('payment_'.$this->paymentName.'_'.'api_key');
-
-        $gingerClient = GingerBankClientBuilder::getClient(
-            $apiKey,
-            $this->config->get('payment_'.$this->paymentName.'_'.'bundle_cacert') ? true : false
-        );
-
-        $gingerCurrencies = $gingerClient->getCurrencyList();
-        $selectedCurrency = $this->session->data['currency'];
-
         $paymentMethodTitle = GingerBankConfig::gingerPaymentNameMapping(
             str_replace('ginger',GingerBankConfig::BANK_PREFIX,$this->paymentName)
         );
 
+        try {
+            $gingerCurrencies = $this->getAllowedCurrency();
+        }catch (\Exception $exception) {
+            $gingerCurrencies['payment_methods'][$paymentMethodTitle]['currencies'] = ['EUR'];
+        }
+
+        $selectedCurrency = $this->session->data['currency'];
         if (!isset($gingerCurrencies['payment_methods'][$paymentMethodTitle]['currencies']))
         {
             return false;
@@ -98,4 +115,5 @@ class GingerModel extends \Model
         $supportedCurrencies = $gingerCurrencies['payment_methods'][$paymentMethodTitle]['currencies'];
         return true ? in_array($selectedCurrency,$supportedCurrencies) : false;
     }
+
 }

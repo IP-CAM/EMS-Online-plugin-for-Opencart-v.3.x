@@ -3,6 +3,7 @@ namespace components;
 
 use interfaces\GingerIssuers;
 use interfaces\GingerOrderLines;
+use interfaces\GingerTermsAndConditions;
 
 class GingerOrderBuilder
 {
@@ -35,17 +36,7 @@ class GingerOrderBuilder
         $order['extra'] = $this->getExtra();
         $order['webhook_url'] = $this->getWebhookURL();
         $order['order_lines'] = $this->getOrderLines($this->getAmountInCents());
-        $transactions = $this->getOrderTransactions();
-
-        if ($this->paymentMethodObj instanceof GingerIssuers)
-        {
-            $transactions = array_merge(
-                $transactions,
-                array_filter(['payment_method_details' => ['issuer_id' => $this->getSelectedIssuer()]])
-            );
-        }
-
-        $order['transactions'][] = $transactions;
+        $order['transactions'][] = $this->getOrderTransactions();
 
         return $order;
     }
@@ -58,15 +49,50 @@ class GingerOrderBuilder
         return array_key_exists('issuer_id', $this->paymentMethodObj->request->post) ? $this->paymentMethodObj->request->post['issuer_id'] : "";
     }
 
-    /**
-     * @return array
-     */
     public function getOrderTransactions(): array
     {
-        return [
-            'payment_method' => $this->getPaymentMethod()
-        ];
+        return array_filter([
+            'payment_method' => $this->getPaymentMethod(),
+            'payment_method_details' => $this->getPaymentMethodDetails()
+        ]);
     }
+
+    /**
+     * @return array|string[]
+     * @throws Exception
+     */
+    public function getPaymentMethodDetails(): array
+    {
+        $paymentMethodDetails = [];
+
+        //uses for ideal
+        if ($this->paymentMethodObj instanceof GingerIssuers)
+        {
+            $paymentMethodDetails['issuer_id'] = $this->getSelectedIssuer();
+            return $paymentMethodDetails;
+        }
+
+        //uses for afterpay
+        if ($this->paymentMethodObj instanceof GingerTermsAndConditions)
+        {
+
+            $termsAndConditionFlag = array_key_exists('ap_terms_and_conditions', $this->paymentMethodObj->request->post)
+                                    ? $this->paymentMethodObj->request->post['ap_terms_and_conditions']
+                                    : "";
+            if ($termsAndConditionFlag)
+            {
+                $paymentMethodDetails = [
+                    'verified_terms_of_service' => true,
+                ];
+            }
+            return $paymentMethodDetails;
+
+        }
+
+        return $paymentMethodDetails;
+
+    }
+
 
     /**
      * @return string

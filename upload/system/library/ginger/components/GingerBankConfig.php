@@ -28,7 +28,10 @@ class GingerBankConfig
             'emspay_payconiq' => 'payconiq',
             'emspay_paypal' => 'paypal',
             'emspay_tikkiepaymentrequest' => 'tikkie-payment-request',
-            'emspay_wechat' => 'wechat'
+            'emspay_wechat' => 'wechat',
+            'emspay_swish' => 'swish',
+            'emspay_giropay' => 'giropay',
+            'emspay_mobilepay' => 'mobilepay'
         ];
 
         return $paymentMap[$paymentMethodName];

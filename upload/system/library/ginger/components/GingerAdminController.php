@@ -11,6 +11,28 @@ use interfaces\GingerTestAPIKey;
 
 class GingerAdminController extends \Controller
 {
+
+    use MultiCurrencyCaching;
+    private $gingerClient;
+
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+        if ($this instanceof GingerTestAPIKey)
+        {
+            $testApiKey = $this->config->get('payment_'.$this->paymentName.'_'.'test_api_key') ?: null;
+        }
+
+        $apiKey = $testApiKey ?? $this->config->get('payment_ginger_api_key');
+
+        if ($apiKey)
+        {
+            $this->gingerClient = GingerBankClientBuilder::getClient(
+                $apiKey,
+                $this->config->get('payment_ginger_bundle_cacert') ? true : false
+            );
+        }
+    }
     /**
      * Prefix for fields in admin settings page
      */
@@ -127,14 +149,13 @@ class GingerAdminController extends \Controller
     {
         if ($this instanceof GingerTestAPIKey)
         {
-            $testAPIKey = $this->request->post[$this->getModuleFieldName('test_api_key')] ?: null;
+            $testApiKey = $this->request->post[$this->getModuleFieldName('test_api_key')] ?: null;
         }
 
-        $apiKey = $testAPIKey ?? $this->request->post[$this->getModuleFieldName('api_key')];//get api key
-
-        if (!$apiKey)
+        if($this->paymentName == 'ginger')
         {
-            $this->error['missing_api'] = $this->language->get('error_missing_api_key');
+            $apiKey = $this->request->post[$this->getModuleFieldName('api_key')];//get api key
+            if (!$apiKey && !isset($testApiKey)) $this->error['missing_api'] = $this->language->get('error_missing_api_key');
         }
 
         if (!$this->user->hasPermission('modify', 'extension/payment/'.$this->paymentName))
@@ -150,6 +171,10 @@ class GingerAdminController extends \Controller
      */
     protected function updateSettings()
     {
+        if ($this->paymentName == 'ginger' && $this->gingerClient)
+        {
+            $this->cacheCurrencyList();
+        }
         $this->model_setting_setting->editSetting(static::POST_FIELD_PREFIX . $this->paymentName, $this->mapPostData());
 
         $this->session->data['success'] = $this->language->get('text_settings_saved');
@@ -235,7 +260,7 @@ class GingerAdminController extends \Controller
             $data[$moduleFieldName] = $this->request->post[$moduleFieldName] ?? $this->config->get($moduleFieldName);
         }
 
-        if ($this->config->get($this->getModuleFieldName('api_key')))
+        if (!$this->config->get('payment_ginger_api_key'))
         {
             $data['info_message'] = $this->language->get('info_plugin_not_configured');
         }
@@ -302,7 +327,6 @@ class GingerAdminController extends \Controller
      */
     public function refund_an_order(){
         try {
-
             if (filter_input(INPUT_POST,'return_status_id',FILTER_SANITIZE_STRING) != 3) return true;
             $this->load->model('sale/return');
             $this->load->model('localisation/return_reason');
@@ -329,18 +353,7 @@ class GingerAdminController extends \Controller
                 $orderHistory = $this->model_sale_order->getOrderHistories($orderId);
                 $gingerOrderId = substr(end($orderHistory)['comment'], strpos(end($orderHistory)['comment'], ":") + 2);
 
-                if ($this instanceof GingerTestAPIKey)
-                {
-                    $testApiKey = $this->config->get('payment_'.$this->paymentName.'_'.'test_api_key') ?: null;
-                }
-                $apiKey = $testApiKey ?? $this->config->get('payment_'.$this->paymentName.'_'.'api_key');
-
-                $gingerClient = GingerBankClientBuilder::getClient(
-                    $apiKey,
-                    $this->config->get('payment_'.$this->paymentName.'_'.'bundle_cacert') ? true : false
-                );
-
-                if ($gingerOrderId) $gingerOrder = $gingerClient->getOrder($gingerOrderId);
+                if ($gingerOrderId) $gingerOrder = $this->gingerClient->getOrder($gingerOrderId);
                 if (in_array('has-refunds',$gingerOrder['flags'])) return true;
 
                 if ($gingerOrder['status'] != 'completed')
@@ -364,7 +377,7 @@ class GingerAdminController extends \Controller
                     $refundData['order_lines'] = $orderBuilder->getOrderLines($orderBuilder->getAmountInCents());
                 }
 
-                $gingerRefundOrder = $gingerClient->refundOrder($gingerOrder['id'], $refundData);
+                $gingerRefundOrder = $this->gingerClient->refundOrder($gingerOrder['id'], $refundData);
                 if (in_array($gingerRefundOrder['status'], ['error', 'cancelled', 'expired']))
                 {
                     if (current($gingerRefundOrder['transactions'])['customer_message'])
@@ -380,4 +393,5 @@ class GingerAdminController extends \Controller
             exit();
         }
     }
+
 }
