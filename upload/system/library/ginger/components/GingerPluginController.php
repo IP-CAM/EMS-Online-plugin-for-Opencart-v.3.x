@@ -11,7 +11,7 @@ use interfaces\GingerTestAPIKey;
 class GingerPluginController extends \Controller
 {
 
-    const PLUGIN_VERSION = "1.7.2";
+    const PLUGIN_VERSION = "1.7.3";
 
     public $gingerClient;
     public $gingerHelper;
