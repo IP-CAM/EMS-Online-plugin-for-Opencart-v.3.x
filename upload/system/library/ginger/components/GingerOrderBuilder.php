@@ -1,7 +1,6 @@
 <?php
 namespace components;
 
-use interfaces\GingerIssuers;
 use interfaces\GingerOrderLines;
 use interfaces\GingerTermsAndConditions;
 
@@ -64,13 +63,6 @@ class GingerOrderBuilder
     public function getPaymentMethodDetails(): array
     {
         $paymentMethodDetails = [];
-
-        //uses for ideal
-        if ($this->paymentMethodObj instanceof GingerIssuers)
-        {
-            $paymentMethodDetails['issuer_id'] = $this->getSelectedIssuer();
-            return $paymentMethodDetails;
-        }
 
         //uses for afterpay
         if ($this->paymentMethodObj instanceof GingerTermsAndConditions)
@@ -328,10 +320,10 @@ class GingerOrderBuilder
                 'address_type' => 'billing',
                 'address' => implode("\n", array_filter(array(
                     $this->getFirstPaymentAddress(),
-                    $this->getSecondPaymentAddress(),
-                    $this->getPaymentPostCode()." ".$this->getPaymentCity()
+                    $this->getSecondPaymentAddress()." ".$this->getPaymentCity()
                 ))),
                 'country' => $this->getCountry(),
+                'postal_code' => $this->getPaymentPostCode(),
             ],
         ];
     }

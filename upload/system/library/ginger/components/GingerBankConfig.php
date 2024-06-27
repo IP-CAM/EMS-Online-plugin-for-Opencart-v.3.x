@@ -27,11 +27,10 @@ class GingerBankConfig
             'emspay_klarnadirectdebit' => 'klarna-direct-debit',
             'emspay_payconiq' => 'payconiq',
             'emspay_paypal' => 'paypal',
-            'emspay_tikkiepaymentrequest' => 'tikkie-payment-request',
-            'emspay_wechat' => 'wechat',
             'emspay_swish' => 'swish',
             'emspay_giropay' => 'giropay',
-            'emspay_mobilepay' => 'mobilepay'
+            'emspay_mobilepay' => 'mobilepay',
+            'emspay_viacash' => 'viacash'
         ];
 
         return $paymentMap[$paymentMethodName];

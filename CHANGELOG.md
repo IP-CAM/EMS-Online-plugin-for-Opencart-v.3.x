@@ -81,3 +81,11 @@
 * Added caching the array of currency
 * Added possibility to skip the intermediate page with terms of condition in AfterPay
 * Added Swish, MobilePay, GiroPay
+
+** 1.7.3 **
+
+* Added ViaCash
+
+** 1.7.4 **
+
+* Removed select with ideal issuers

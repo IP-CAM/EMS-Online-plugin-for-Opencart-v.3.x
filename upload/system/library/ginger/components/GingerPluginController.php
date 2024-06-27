@@ -5,13 +5,12 @@ use banktwins\GingerBankHelper;
 use banktwins\GingerBankClientBuilder;
 use interfaces\GingerCustomerPersonalInformation;
 use interfaces\GingerIdentificationPay;
-use interfaces\GingerIssuers;
 use interfaces\GingerTestAPIKey;
 
 class GingerPluginController extends \Controller
 {
 
-    const PLUGIN_VERSION = "1.7.3";
+    const PLUGIN_VERSION = "1.7.4";
 
     public $gingerClient;
     public $gingerHelper;
@@ -53,14 +52,6 @@ class GingerPluginController extends \Controller
 
         $data['button_confirm'] = $this->language->get('button_confirm');
         $data['action'] = $this->url->link('extension/payment/'.$gingerModuleName.'/confirm');
-
-        if ($this instanceof GingerIssuers)
-        {
-            $data['text_select_bank'] = $this->language->get('text_select_bank');
-            $data['text_choose_bank_issuer'] = $this->language->get('text_choose_bank_issuer');
-            $data['text_error_invalid_selected_issuer'] = $this->language->get('text_error_invalid_selected_issuer');
-            $data['issuers'] = $this->gingerClient->getIdealIssuers();
-        }
 
         if ($this instanceof GingerIdentificationPay)
         {
